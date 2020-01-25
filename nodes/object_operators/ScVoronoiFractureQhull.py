@@ -228,7 +228,12 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
             temp.append(objects[i])
             self.prop_obj_array = repr(temp)
 
-        del objects
+        # optional (set color random in viewport):
+        my_areas = bpy.context.workspace.screens[0].areas
+        for area in my_areas:
+            for space in area.spaces:
+                if space.type == 'VIEW_3D':
+                    space.shading.color_type = 'RANDOM'
 
     def post_execute(self):
         out = super().post_execute()
