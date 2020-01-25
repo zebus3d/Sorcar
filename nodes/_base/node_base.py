@@ -1,11 +1,13 @@
 import bpy
 
-from bpy.props import BoolProperty
+from bpy.props import BoolProperty, StringProperty
+from datetime import datetime
 
 class ScNode:
     node_executable: BoolProperty()
     first_time: BoolProperty()
     node_error: BoolProperty()
+    node_exec_time: StringProperty(default="0:00:00.00")
 
     @classmethod
     def poll(cls, _ntree):
@@ -38,6 +40,7 @@ class ScNode:
     
     def draw_buttons(self, context, layout):
         if (self.node_executable):
+            layout.label(text=self.node_exec_time)
             if (self == context.space_data.edit_tree.nodes.active):
                 if (not self == context.space_data.edit_tree.nodes.get(str(context.space_data.edit_tree.node))):
                     layout.operator("sc.execute_node", text="Set Preview")
@@ -48,9 +51,11 @@ class ScNode:
             self.node_error = True
             if (self.init_in(forced)):
                 if not (self.error_condition()):
+                    start = datetime.now()
                     self.pre_execute()
                     self.functionality()
                     self.node_error = not self.init_out(self.post_execute())
+                    self.node_exec_time = str(datetime.now() - start)
             self.first_time = False
         self.set_color()
         return not self.node_error
