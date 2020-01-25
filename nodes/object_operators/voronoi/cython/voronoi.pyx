@@ -1,23 +1,24 @@
-# cython: language_level=3
+#cython: language_level=2
+
 import bpy
 import cython
 from mathutils import Vector
+
 import numpy as np
 cimport numpy as np
 
-#from cython.parallel cimport prange
+#ctypedef np.double_t DTYPE_t
+#ctypedef np.float64_t DTYPE_t
 
-def fracture_voronoi(np.ndarray input_points, list objects):
+cdef void fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, list objects):
     win = bpy.context.window_manager
     win.progress_begin(0, len(objects))
 
     cdef int total_points = len(input_points)
-
     cdef int i = 0
-    cdef int p = 0
 
     for from_point in input_points:
-        win.progress_update(p)
+        win.progress_update(i)
 
         bpy.context.view_layer.objects.active = objects[i]
 
@@ -25,7 +26,6 @@ def fracture_voronoi(np.ndarray input_points, list objects):
             bpy.context.active_object.select_set(True)
 
         #bpy.context.active_object.name = "chunk_" + str(i).zfill(len(str(total_points)))
-        i += 1
 
         bpy.ops.object.mode_set(mode='EDIT')
 
@@ -50,7 +50,7 @@ def fracture_voronoi(np.ndarray input_points, list objects):
                     clear_outer=False,
                     clear_inner=True
                 )
-        p += 1
+        i += 1
 
         if bpy.context.active_object.mode != 'OBJECT':
             bpy.ops.object.mode_set(mode='OBJECT')
@@ -58,3 +58,6 @@ def fracture_voronoi(np.ndarray input_points, list objects):
         bpy.ops.object.select_all(action='DESELECT')
 
     win.progress_end()
+
+def call_fracture_voronoi(input_points, objects):
+    fracture_voronoi(input_points, objects)

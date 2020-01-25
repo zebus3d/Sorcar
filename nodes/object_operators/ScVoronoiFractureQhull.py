@@ -137,10 +137,60 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
             bpy.ops.mesh.bisect(plane_co=voroCenter, plane_no=-aim, use_fill=True, clear_outer=False, clear_inner=True)
             p += 1
 
+        bpy.ops.object.mode_set(mode='OBJECT')
         win.progress_end()
 
-    def brute_force(self, points, objects):
-        voronoi.fracture_voronoi(points, objects)
+    def brute_force(self, input_points, objects):
+        # with cython:
+        voronoi.call_fracture_voronoi(input_points, objects)
+
+        # python brute force:
+        # win = bpy.context.window_manager
+        # win.progress_begin(0, len(objects))
+        #
+        # i = 0
+        # for from_point in input_points:
+        #     win.progress_update(i)
+        #
+        #     bpy.context.view_layer.objects.active = objects[i]
+        #
+        #     if not bpy.context.active_object.select_get():
+        #         bpy.context.active_object.select_set(True)
+        #
+        #     # bpy.context.active_object.name = "chunk_" + str(i).zfill(len(str(total_points)))
+        #
+        #
+        #     bpy.ops.object.mode_set(mode='EDIT')
+        #
+        #     for to_point in input_points:
+        #
+        #         from_point = mathutils.Vector((from_point[0], from_point[1], from_point[2]))
+        #         to_point = mathutils.Vector((to_point[0], to_point[1], to_point[2]))
+        #
+        #         if from_point != to_point:
+        #             # Calculate the Perpendicular Bisector Plane
+        #
+        #             voro_center = mathutils.Vector(((to_point + from_point) * 0.5))
+        #             aim = mathutils.Vector((from_point - to_point))
+        #             aim.normalize()
+        #
+        #             # Bullet Shatter
+        #             bpy.ops.mesh.select_all(action='SELECT')
+        #             bpy.ops.mesh.bisect(
+        #                 plane_co=voro_center,
+        #                 plane_no=aim,
+        #                 use_fill=True,
+        #                 clear_outer=False,
+        #                 clear_inner=True
+        #             )
+        #
+        #     i += 1
+        #     if bpy.context.active_object.mode != 'OBJECT':
+        #         bpy.ops.object.mode_set(mode='OBJECT')
+        #
+        #     bpy.ops.object.select_all(action='DESELECT')
+        #
+        # win.progress_end()
 
     def functionality(self):
         points_obj = self.inputs["Center Points"].default_value
@@ -148,14 +198,24 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
         bf = self.inputs["Brute Force"].default_value
         points = np.array([(points_obj.matrix_world @ v.co) for v in points_obj.data.vertices])
         objects = []
+        total_points = len(points_obj.data.vertices)
+        num_paddin = len(str(total_points))
 
-        bpy.ops.object.mode_set(mode='OBJECT')
+        if bpy.context.active_object.mode != 'OBJECT':
+            bpy.ops.object.mode_set(mode='OBJECT')
 
-        for i in range(len(points)):
-            bpy.ops.object.duplicate()
-            objects.append(bpy.context.view_layer.objects.active)
+        for i in range(total_points):
+            # bpy.ops.object.duplicate()
+            # objects.append(bpy.context.view_layer.objects.active)
+            # duplicate more efficient:
+            new_obj = obj.copy()
+            new_obj.name = "chunk_" + str(i).zfill(num_paddin)
+            new_obj.data = obj.data.copy()
+            bpy.context.collection.objects.link(new_obj)
+            objects.append(new_obj)
 
         bpy.ops.object.select_all(action='DESELECT')
+        obj.hide_set(True)
 
         # if len(objects) > 60:
         if bf:
@@ -168,8 +228,7 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
             temp.append(objects[i])
             self.prop_obj_array = repr(temp)
 
-        bpy.ops.object.mode_set(mode='OBJECT')
-        obj.hide_set(True)
+        del objects
 
     def post_execute(self):
         out = super().post_execute()
