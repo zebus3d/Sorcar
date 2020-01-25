@@ -121,7 +121,6 @@ class ScVoronoiFractureKDTree(Node, ScObjectOperatorNode):
 
             self.focus_on_original_object()
             bpy.ops.object.duplicate()
-
             bpy.context.active_object.name = "chunk_" + str(i).zfill(len(str(total_input_points)))
             i += 1
 

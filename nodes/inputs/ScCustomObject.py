@@ -24,7 +24,12 @@ class ScCustomObject(Node, ScObjectOperatorNode):
         super().pre_execute()
     
     def functionality(self):
-        bpy.ops.object.duplicate()
+        # bpy.ops.object.duplicate()
+        # most faster:
+        new_obj = bpy.context.active_object.copy()
+        new_obj.data = bpy.context.active_object.data.copy()
+        bpy.context.collection.objects.link(new_obj)
+        bpy.context.view_layer.objects.active = new_obj
     
     def post_execute(self):
         out = super().post_execute()
