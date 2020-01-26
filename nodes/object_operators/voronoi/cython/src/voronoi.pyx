@@ -29,6 +29,9 @@ cdef void fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, list o
 
         bpy.ops.object.mode_set(mode='EDIT')
 
+        # set facemap inner:
+        bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
+
         for to_point in input_points:
 
             from_point = Vector((from_point[0], from_point[1], from_point[2]))
@@ -50,6 +53,11 @@ cdef void fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, list o
                     clear_outer=False,
                     clear_inner=True
                 )
+                # assing facemap inner:
+                bpy.ops.object.face_map_assign()
+
+        # select only facemap inner:
+        bpy.ops.object.face_map_select()
         i += 1
 
         if bpy.context.active_object.mode != 'OBJECT':

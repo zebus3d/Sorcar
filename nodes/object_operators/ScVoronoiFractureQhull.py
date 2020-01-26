@@ -123,15 +123,27 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.context.view_layer.objects.active = objects[bounding_pair[0]]
+            # set facemap inner:
+            bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
             bpy.ops.object.mode_set(mode='EDIT')
             bpy.ops.mesh.select_all(action='SELECT')
             bpy.ops.mesh.bisect(plane_co=voroCenter, plane_no=aim, use_fill=True, clear_outer=False, clear_inner=True)
+            # assing to facemap inner:
+            bpy.ops.object.face_map_assign()
+            # select only facemap inner:
+            bpy.ops.object.face_map_select()
 
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.context.view_layer.objects.active = objects[bounding_pair[1]]
+            # set facemap inner:
+            bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
             bpy.ops.object.mode_set(mode='EDIT')
             bpy.ops.mesh.select_all(action='SELECT')
             bpy.ops.mesh.bisect(plane_co=voroCenter, plane_no=-aim, use_fill=True, clear_outer=False, clear_inner=True)
+            # assing to facemap inner:
+            bpy.ops.object.face_map_assign()
+            # select only facemap inner:
+            bpy.ops.object.face_map_select()
             p += 1
 
         bpy.ops.object.mode_set(mode='OBJECT')
@@ -152,6 +164,10 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
         if bpy.context.active_object.mode != 'OBJECT':
             bpy.ops.object.mode_set(mode='OBJECT')
+
+        # add new facemap inner:
+        bpy.ops.object.face_map_add()
+        bpy.context.active_object.face_maps[-1].name = "inner"
 
         for i in range(total_points):
             # bpy.ops.object.duplicate()
