@@ -30,8 +30,8 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
     in_obj: PointerProperty(type=bpy.types.Object, update=ScNode.update_value)
     prop_obj_array: StringProperty(default="[]")
-    in_ifs: BoolProperty(default=False, description="Select the inner faces", update=ScNode.update_value)
-    in_bf: BoolProperty(default=False, description="The brute force method is slower but works better (especially with low numbers of points)", update=ScNode.update_value)
+    in_ifs: BoolProperty(default=False, description="Set the selection of the internal parts", update=ScNode.update_value)
+    in_bf: BoolProperty(default=False, description="Brute Force is recommended to be used only with low amounts of Point Scatter", update=ScNode.update_value)
 
     def init(self, context):
         super().init(context)
