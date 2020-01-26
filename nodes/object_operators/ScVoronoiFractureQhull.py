@@ -176,6 +176,13 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
         total_points = len(points_obj.data.vertices)
         num_paddin = len(str(total_points))
 
+        # set to face mode:
+        if bpy.context.active_object.mode != 'EDIT':
+            bpy.ops.object.mode_set(mode='EDIT')
+        #
+        if not bpy.context.tool_settings.mesh_select_mode[2]:
+            bpy.context.tool_settings.mesh_select_mode = (False, False, True)
+
         if bpy.context.active_object.mode != 'OBJECT':
             bpy.ops.object.mode_set(mode='OBJECT')
 

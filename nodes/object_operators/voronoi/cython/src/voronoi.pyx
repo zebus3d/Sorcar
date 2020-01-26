@@ -27,7 +27,8 @@ cdef void fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, list o
 
         #bpy.context.active_object.name = "chunk_" + str(i).zfill(len(str(total_points)))
 
-        bpy.ops.object.mode_set(mode='EDIT')
+        if bpy.context.active_object.mode != 'EDIT':
+            bpy.ops.object.mode_set(mode='EDIT')
 
         if selection == "True":
             # set facemap inner:
