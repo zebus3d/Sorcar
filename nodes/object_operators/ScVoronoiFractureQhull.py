@@ -26,12 +26,14 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
     in_obj: PointerProperty(type=bpy.types.Object, update=ScNode.update_value)
     prop_obj_array: StringProperty(default="[]")
+    in_ifs: BoolProperty(default=False, description="Get the inner faces selected", update=ScNode.update_value)
     in_bf: BoolProperty(default=False, description="The brute force method is slower but works better (especially with low numbers of points)", update=ScNode.update_value)
 
     def init(self, context):
         super().init(context)
         self.inputs.new("ScNodeSocketObject", "Center Points").init("in_obj", True)
         self.outputs.new("ScNodeSocketArray", "Chunks")
+        self.inputs.new("ScNodeSocketBool", "Get inner selection").init("in_ifs", True)
         self.inputs.new("ScNodeSocketBool", "Brute Force").init("in_bf", True)
 
     def error_condition(self):
@@ -123,35 +125,43 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.context.view_layer.objects.active = objects[bounding_pair[0]]
-            # set facemap inner:
-            bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
+            if self.inputs["Get inner selection"].default_value:
+                # set facemap inner:
+                bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
             bpy.ops.object.mode_set(mode='EDIT')
             bpy.ops.mesh.select_all(action='SELECT')
             bpy.ops.mesh.bisect(plane_co=voroCenter, plane_no=aim, use_fill=True, clear_outer=False, clear_inner=True)
-            # assing to facemap inner:
-            bpy.ops.object.face_map_assign()
-            # select facemap inner:
-            bpy.ops.object.face_map_select()
+            if self.inputs["Get inner selection"].default_value:
+                # assing to facemap inner:
+                bpy.ops.object.face_map_assign()
+                # select facemap inner:
+                bpy.ops.object.face_map_select()
+            else:
+                bpy.ops.mesh.select_all(action='DESELECT')
 
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.context.view_layer.objects.active = objects[bounding_pair[1]]
-            # set facemap inner:
-            bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
+            if self.inputs["Get inner selection"].default_value:
+                # set facemap inner:
+                bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
             bpy.ops.object.mode_set(mode='EDIT')
             bpy.ops.mesh.select_all(action='SELECT')
             bpy.ops.mesh.bisect(plane_co=voroCenter, plane_no=-aim, use_fill=True, clear_outer=False, clear_inner=True)
-            # assing to facemap inner:
-            bpy.ops.object.face_map_assign()
-            # select facemap inner:
-            bpy.ops.object.face_map_select()
+            if self.inputs["Get inner selection"].default_value:
+                # assing to facemap inner:
+                bpy.ops.object.face_map_assign()
+                # select facemap inner:
+                bpy.ops.object.face_map_select()
+            else:
+                bpy.ops.mesh.select_all(action='DESELECT')
             p += 1
 
         bpy.ops.object.mode_set(mode='OBJECT')
         win.progress_end()
 
-    def brute_force(self, input_points, objects):
+    def brute_force(self, input_points, objects, selection):
         # with cython:
-        voronoi.call_fracture_voronoi(input_points, objects)
+        voronoi.call_fracture_voronoi(input_points, objects, selection)
 
     def functionality(self):
         points_obj = self.inputs["Center Points"].default_value
@@ -165,16 +175,17 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
         if bpy.context.active_object.mode != 'OBJECT':
             bpy.ops.object.mode_set(mode='OBJECT')
 
-        # add new facemap inner:
-        bpy.ops.object.face_map_add()
-        bpy.context.active_object.face_maps[-1].name = "inner"
+        if self.inputs["Get inner selection"].default_value:
+            # add new facemap inner:
+            bpy.ops.object.face_map_add()
+            bpy.context.active_object.face_maps[-1].name = "inner"
 
         for i in range(total_points):
             # bpy.ops.object.duplicate()
             # objects.append(bpy.context.view_layer.objects.active)
             # Duplication most faster:
             new_obj = obj.copy()
-            new_obj.name = "chunk_" + str(i).zfill(num_paddin)
+            new_obj.name = "chunk_" + str(i+1).zfill(num_paddin)
             new_obj.data = obj.data.copy()
             bpy.context.collection.objects.link(new_obj)
             objects.append(new_obj)
@@ -184,7 +195,9 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
         # if len(objects) > 60:
         if bf:
-            self.brute_force(points, objects)
+            selection = str(self.inputs["Get inner selection"].default_value)
+            print(selection)
+            self.brute_force(points, objects, selection)
         else:
             self.qhull_qvoronoi(points, objects)
 

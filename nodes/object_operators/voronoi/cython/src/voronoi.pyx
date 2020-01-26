@@ -10,7 +10,7 @@ cimport numpy as np
 #ctypedef np.double_t DTYPE_t
 #ctypedef np.float64_t DTYPE_t
 
-cdef void fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, list objects):
+cdef void fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, list objects, str selection):
     win = bpy.context.window_manager
     win.progress_begin(0, len(objects))
 
@@ -29,8 +29,9 @@ cdef void fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, list o
 
         bpy.ops.object.mode_set(mode='EDIT')
 
-        # set facemap inner:
-        bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
+        if selection == "True":
+            # set facemap inner:
+            bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
 
         for to_point in input_points:
 
@@ -53,11 +54,16 @@ cdef void fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, list o
                     clear_outer=False,
                     clear_inner=True
                 )
-                # assing facemap inner:
-                bpy.ops.object.face_map_assign()
+                if selection == "True":
+                    # assing facemap inner:
+                    bpy.ops.object.face_map_assign()
 
-        # select facemap inner:
-        bpy.ops.object.face_map_select()
+        if selection == "True":
+            # select facemap inner:
+            bpy.ops.object.face_map_select()
+        else:
+            bpy.ops.mesh.select_all(action='DESELECT')
+
         i += 1
 
         if bpy.context.active_object.mode != 'OBJECT':
@@ -67,5 +73,5 @@ cdef void fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, list o
 
     win.progress_end()
 
-def call_fracture_voronoi(input_points, objects):
-    fracture_voronoi(input_points, objects)
+def call_fracture_voronoi(input_points, objects, selection):
+    fracture_voronoi(input_points, objects, selection)
