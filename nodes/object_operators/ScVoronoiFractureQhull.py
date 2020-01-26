@@ -4,7 +4,7 @@ import mathutils
 import platform
 import os, stat
 from subprocess import run, PIPE
-from .voronoi import voronoi
+from .voronoi.cython import voronoi
 
 from bpy.props import PointerProperty, StringProperty, BoolProperty
 from bpy.types import Node
@@ -57,23 +57,21 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
         for point in points:
             out_ponints = out_ponints + str(point[0]) + " " + str(point[1]) + " " + str(point[2]) + "\n"
 
-        # print(out_ponints)
-
         qvoronoi_abs_path = os.path.dirname(os.path.abspath(__file__))
 
         user_system = platform.system()
         if user_system == "Linux":
-            my_file = qvoronoi_abs_path + '/voronoi/' + 'qvoronoi_lnx64'
+            my_file = qvoronoi_abs_path + '/voronoi/qhull/' + 'qvoronoi_lnx64'
             if not os.access(my_file, os.X_OK):
                 os.chmod(my_file, stat.S_IRWXU | stat.S_IRWXG | stat.S_IXOTH | stat.S_IROTH)
             process = run([my_file, 'Fv'], stdout=PIPE, input=out_ponints, encoding='ascii')
         elif user_system == "Darwin":
-            my_file = qvoronoi_abs_path + '/voronoi/' + 'qvoronoi_mac64'
+            my_file = qvoronoi_abs_path + '/voronoi/qhull/' + 'qvoronoi_mac64'
             if not os.access(my_file, os.X_OK):
                 os.chmod(my_file, stat.S_IRWXU | stat.S_IRWXG | stat.S_IXOTH | stat.S_IROTH)
             process = run([my_file, 'Fv'], stdout=PIPE, input=out_ponints, encoding='ascii')
         elif user_system == "Windows":
-            my_file = qvoronoi_abs_path + '/voronoi/' + 'qvoronoi_win64.exe'
+            my_file = qvoronoi_abs_path + '/voronoi/qhull/' + 'qvoronoi_win64.exe'
             if not os.access(my_file, os.X_OK):
                 os.chmod(my_file, stat.S_IRWXU | stat.S_IRWXG | stat.S_IXOTH | stat.S_IROTH)
             process = run([my_file, 'Fv'], stdout=PIPE, input=out_ponints, encoding='ascii')
@@ -120,7 +118,6 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
             win.progress_update(p)
 
             voroCenter = (points[bounding_pair[0]] + points[bounding_pair[1]]) * 0.5
-
             aim = mathutils.Vector(points[bounding_pair[0]] - points[bounding_pair[1]])
             aim.normalize()
 
@@ -144,54 +141,6 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
         # with cython:
         voronoi.call_fracture_voronoi(input_points, objects)
 
-        # python brute force:
-        # win = bpy.context.window_manager
-        # win.progress_begin(0, len(objects))
-        #
-        # i = 0
-        # for from_point in input_points:
-        #     win.progress_update(i)
-        #
-        #     bpy.context.view_layer.objects.active = objects[i]
-        #
-        #     if not bpy.context.active_object.select_get():
-        #         bpy.context.active_object.select_set(True)
-        #
-        #     # bpy.context.active_object.name = "chunk_" + str(i).zfill(len(str(total_points)))
-        #
-        #
-        #     bpy.ops.object.mode_set(mode='EDIT')
-        #
-        #     for to_point in input_points:
-        #
-        #         from_point = mathutils.Vector((from_point[0], from_point[1], from_point[2]))
-        #         to_point = mathutils.Vector((to_point[0], to_point[1], to_point[2]))
-        #
-        #         if from_point != to_point:
-        #             # Calculate the Perpendicular Bisector Plane
-        #
-        #             voro_center = mathutils.Vector(((to_point + from_point) * 0.5))
-        #             aim = mathutils.Vector((from_point - to_point))
-        #             aim.normalize()
-        #
-        #             # Bullet Shatter
-        #             bpy.ops.mesh.select_all(action='SELECT')
-        #             bpy.ops.mesh.bisect(
-        #                 plane_co=voro_center,
-        #                 plane_no=aim,
-        #                 use_fill=True,
-        #                 clear_outer=False,
-        #                 clear_inner=True
-        #             )
-        #
-        #     i += 1
-        #     if bpy.context.active_object.mode != 'OBJECT':
-        #         bpy.ops.object.mode_set(mode='OBJECT')
-        #
-        #     bpy.ops.object.select_all(action='DESELECT')
-        #
-        # win.progress_end()
-
     def functionality(self):
         points_obj = self.inputs["Center Points"].default_value
         obj = self.inputs["Object"].default_value
@@ -207,7 +156,7 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
         for i in range(total_points):
             # bpy.ops.object.duplicate()
             # objects.append(bpy.context.view_layer.objects.active)
-            # duplicate more efficient:
+            # Duplication most faster:
             new_obj = obj.copy()
             new_obj.name = "chunk_" + str(i).zfill(num_paddin)
             new_obj.data = obj.data.copy()
@@ -229,11 +178,11 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
             self.prop_obj_array = repr(temp)
 
         # optional (set color random in viewport):
-        my_areas = bpy.context.workspace.screens[0].areas
-        for area in my_areas:
-            for space in area.spaces:
-                if space.type == 'VIEW_3D':
-                    space.shading.color_type = 'RANDOM'
+        # my_areas = bpy.context.workspace.screens[0].areas
+        # for area in my_areas:
+        #     for space in area.spaces:
+        #         if space.type == 'VIEW_3D':
+        #             space.shading.color_type = 'RANDOM'
 
     def post_execute(self):
         out = super().post_execute()
