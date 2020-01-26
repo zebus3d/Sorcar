@@ -335,7 +335,7 @@ body.cython { font-family: courier; font-size: 12; }
 <pre class="cython line score-27" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">13</span>: cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, obj, int total_chunks, str selection):</pre>
 <pre class='cython code score-27 '>static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_points, PyObject *__pyx_v_obj, int __pyx_v_total_chunks, PyObject *__pyx_v_selection) {
   PyObject *__pyx_v_win = NULL;
-  PyObject *__pyx_v_objects = 0;
+  PyObject *__pyx_v_chunks = 0;
   int __pyx_v_num_paddin;
   int __pyx_v_i;
   PyObject *__pyx_v_from_point = NULL;
@@ -381,7 +381,7 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='pyx_c_api'>__Pyx_SafeReleaseBuffer</span>(&amp;__pyx_pybuffernd_input_points.rcbuffer-&gt;pybuffer);
   __pyx_L2:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_win);
-  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_objects);
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_chunks);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_from_point);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_new_obj);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_to_point);
@@ -456,10 +456,10 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">16</span>: </pre>
-<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">17</span>:     cdef list objects  = []</pre>
+<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">17</span>:     cdef list chunks  = []</pre>
 <pre class='cython code score-5 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  __pyx_v_objects = ((PyObject*)__pyx_t_1);
+  __pyx_v_chunks = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 </pre><pre class="cython line score-11" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">18</span>:     cdef int num_paddin = len(str(total_chunks))</pre>
 <pre class='cython code score-11 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyInt_From_int</span>(__pyx_v_total_chunks);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)</span>
@@ -679,8 +679,8 @@ body.cython { font-family: courier; font-size: 12; }
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">32</span>:         objects.append(new_obj)</pre>
-<pre class='cython code score-2 '>    __pyx_t_11 = <span class='pyx_c_api'>__Pyx_PyList_Append</span>(__pyx_v_objects, __pyx_v_new_obj);<span class='error_goto'> if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 32, __pyx_L1_error)</span>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">32</span>:         chunks.append(new_obj)</pre>
+<pre class='cython code score-2 '>    __pyx_t_11 = <span class='pyx_c_api'>__Pyx_PyList_Append</span>(__pyx_v_chunks, __pyx_v_new_obj);<span class='error_goto'> if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 32, __pyx_L1_error)</span>
 </pre><pre class="cython line score-14" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">33</span>:         bpy.context.view_layer.objects.active = new_obj</pre>
 <pre class='cython code score-14 '>    <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_1, __pyx_n_s_bpy);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -1232,10 +1232,10 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">80</span>:     return objects</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">80</span>:     return chunks</pre>
 <pre class='cython code score-2 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_objects);
-  __pyx_r = __pyx_v_objects;
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_chunks);
+  __pyx_r = __pyx_v_chunks;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">81</span>: </pre>
 <pre class="cython line score-51" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">82</span>: def call_fracture_voronoi(input_points, obj, total_chunks, selection):</pre>
@@ -1324,7 +1324,7 @@ static PyObject *__pyx_pw_7voronoi_1call_fracture_voronoi(PyObject *__pyx_self, 
 }
 
 static PyObject *__pyx_pf_7voronoi_call_fracture_voronoi(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input_points, PyObject *__pyx_v_obj, PyObject *__pyx_v_total_chunks, PyObject *__pyx_v_selection) {
-  PyObject *__pyx_v_objects = NULL;
+  PyObject *__pyx_v_chunks = NULL;
   PyObject *__pyx_r = NULL;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("call_fracture_voronoi", 0);
@@ -1335,13 +1335,13 @@ static PyObject *__pyx_pf_7voronoi_call_fracture_voronoi(CYTHON_UNUSED PyObject 
   <span class='pyx_c_api'>__Pyx_AddTraceback</span>("voronoi.call_fracture_voronoi", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_objects);
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_chunks);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__8 = <span class='py_c_api'>PyTuple_Pack</span>(5, __pyx_n_s_input_points, __pyx_n_s_obj, __pyx_n_s_total_chunks, __pyx_n_s_selection, __pyx_n_s_objects);<span class='error_goto'> if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 82, __pyx_L1_error)</span>
+  __pyx_tuple__8 = <span class='py_c_api'>PyTuple_Pack</span>(5, __pyx_n_s_input_points, __pyx_n_s_obj, __pyx_n_s_total_chunks, __pyx_n_s_selection, __pyx_n_s_chunks);<span class='error_goto'> if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 82, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__8);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__8);
 /* … */
@@ -1349,17 +1349,17 @@ static PyObject *__pyx_pf_7voronoi_call_fracture_voronoi(CYTHON_UNUSED PyObject 
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_call_fracture_voronoi, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 82, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">83</span>:     objects = fracture_voronoi(input_points, obj, total_chunks, selection)</pre>
+</pre><pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">83</span>:     chunks = fracture_voronoi(input_points, obj, total_chunks, selection)</pre>
 <pre class='cython code score-19 '>  if (!(likely(((__pyx_v_input_points) == Py_None) || likely(<span class='pyx_c_api'>__Pyx_TypeTest</span>(__pyx_v_input_points, __pyx_ptype_5numpy_ndarray))))) <span class='error_goto'>__PYX_ERR(0, 83, __pyx_L1_error)</span>
   __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyInt_As_int</span>(__pyx_v_total_chunks); if (unlikely((__pyx_t_1 == (int)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(0, 83, __pyx_L1_error)</span>
   if (!(likely(<span class='py_c_api'>PyString_CheckExact</span>(__pyx_v_selection))||((__pyx_v_selection) == Py_None)||(<span class='py_c_api'>PyErr_Format</span>(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_selection)-&gt;tp_name), 0))) <span class='error_goto'>__PYX_ERR(0, 83, __pyx_L1_error)</span>
   __pyx_t_2 = __pyx_f_7voronoi_fracture_voronoi(((PyArrayObject *)__pyx_v_input_points), __pyx_v_obj, __pyx_t_1, ((PyObject*)__pyx_v_selection));<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
-  __pyx_v_objects = ((PyObject*)__pyx_t_2);
+  __pyx_v_chunks = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
-</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">84</span>:     return objects</pre>
+</pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">84</span>:     return chunks</pre>
 <pre class='cython code score-2 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_objects);
-  __pyx_r = __pyx_v_objects;
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_chunks);
+  __pyx_r = __pyx_v_chunks;
   goto __pyx_L0;
 </pre></div></body></html>

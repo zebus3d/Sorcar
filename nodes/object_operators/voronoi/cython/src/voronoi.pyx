@@ -14,7 +14,7 @@ cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, obj, i
     win = bpy.context.window_manager
     win.progress_begin(0, total_chunks)
 
-    cdef list objects  = []
+    cdef list chunks  = []
     cdef int num_paddin = len(str(total_chunks))
     cdef int i = 0
 
@@ -29,7 +29,7 @@ cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, obj, i
         new_obj.name = "chunk_" + str(i + 1).zfill(num_paddin)
         new_obj.data = obj.data.copy()
         bpy.context.collection.objects.link(new_obj)
-        objects.append(new_obj)
+        chunks.append(new_obj)
         bpy.context.view_layer.objects.active = new_obj
 
         if not bpy.context.active_object.select_get():
@@ -77,8 +77,8 @@ cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, obj, i
         i += 1
 
     win.progress_end()
-    return objects
+    return chunks
 
 def call_fracture_voronoi(input_points, obj, total_chunks, selection):
-    objects = fracture_voronoi(input_points, obj, total_chunks, selection)
-    return objects
+    chunks = fracture_voronoi(input_points, obj, total_chunks, selection)
+    return chunks

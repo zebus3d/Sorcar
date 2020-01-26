@@ -1762,6 +1762,7 @@ static const char __pyx_k_Vector[] = "Vector";
 static const char __pyx_k_action[] = "action";
 static const char __pyx_k_active[] = "active";
 static const char __pyx_k_bisect[] = "bisect";
+static const char __pyx_k_chunks[] = "chunks";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_name_2[] = "__name__";
 static const char __pyx_k_object[] = "object";
@@ -1828,6 +1829,7 @@ static PyObject *__pyx_n_s_bisect;
 static PyObject *__pyx_n_s_bpy;
 static PyObject *__pyx_n_s_call_fracture_voronoi;
 static PyObject *__pyx_n_s_chunk;
+static PyObject *__pyx_n_s_chunks;
 static PyObject *__pyx_n_s_clear_inner;
 static PyObject *__pyx_n_s_clear_outer;
 static PyObject *__pyx_n_s_cline_in_traceback;
@@ -1906,7 +1908,7 @@ static PyObject *__pyx_codeobj__9;
 
 static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_points, PyObject *__pyx_v_obj, int __pyx_v_total_chunks, PyObject *__pyx_v_selection) {
   PyObject *__pyx_v_win = NULL;
-  PyObject *__pyx_v_objects = 0;
+  PyObject *__pyx_v_chunks = 0;
   int __pyx_v_num_paddin;
   int __pyx_v_i;
   PyObject *__pyx_v_from_point = NULL;
@@ -1968,7 +1970,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  *     win = bpy.context.window_manager
  *     win.progress_begin(0, total_chunks)             # <<<<<<<<<<<<<<
  * 
- *     cdef list objects  = []
+ *     cdef list chunks  = []
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_win, __pyx_n_s_progress_begin); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2026,18 +2028,18 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   /* "voronoi.pyx":17
  *     win.progress_begin(0, total_chunks)
  * 
- *     cdef list objects  = []             # <<<<<<<<<<<<<<
+ *     cdef list chunks  = []             # <<<<<<<<<<<<<<
  *     cdef int num_paddin = len(str(total_chunks))
  *     cdef int i = 0
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_objects = ((PyObject*)__pyx_t_1);
+  __pyx_v_chunks = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "voronoi.pyx":18
  * 
- *     cdef list objects  = []
+ *     cdef list chunks  = []
  *     cdef int num_paddin = len(str(total_chunks))             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  * 
@@ -2052,7 +2054,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   __pyx_v_num_paddin = __pyx_t_7;
 
   /* "voronoi.pyx":19
- *     cdef list objects  = []
+ *     cdef list chunks  = []
  *     cdef int num_paddin = len(str(total_chunks))
  *     cdef int i = 0             # <<<<<<<<<<<<<<
  * 
@@ -2260,7 +2262,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  *         new_obj.name = "chunk_" + str(i + 1).zfill(num_paddin)
  *         new_obj.data = obj.data.copy()             # <<<<<<<<<<<<<<
  *         bpy.context.collection.objects.link(new_obj)
- *         objects.append(new_obj)
+ *         chunks.append(new_obj)
  */
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_obj, __pyx_n_s_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -2289,7 +2291,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  *         new_obj.name = "chunk_" + str(i + 1).zfill(num_paddin)
  *         new_obj.data = obj.data.copy()
  *         bpy.context.collection.objects.link(new_obj)             # <<<<<<<<<<<<<<
- *         objects.append(new_obj)
+ *         chunks.append(new_obj)
  *         bpy.context.view_layer.objects.active = new_obj
  */
     __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_bpy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
@@ -2326,15 +2328,15 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     /* "voronoi.pyx":32
  *         new_obj.data = obj.data.copy()
  *         bpy.context.collection.objects.link(new_obj)
- *         objects.append(new_obj)             # <<<<<<<<<<<<<<
+ *         chunks.append(new_obj)             # <<<<<<<<<<<<<<
  *         bpy.context.view_layer.objects.active = new_obj
  * 
  */
-    __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_objects, __pyx_v_new_obj); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 32, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_chunks, __pyx_v_new_obj); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 32, __pyx_L1_error)
 
     /* "voronoi.pyx":33
  *         bpy.context.collection.objects.link(new_obj)
- *         objects.append(new_obj)
+ *         chunks.append(new_obj)
  *         bpy.context.view_layer.objects.active = new_obj             # <<<<<<<<<<<<<<
  * 
  *         if not bpy.context.active_object.select_get():
@@ -3105,7 +3107,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  *         i += 1
  * 
  *     win.progress_end()             # <<<<<<<<<<<<<<
- *     return objects
+ *     return chunks
  * 
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_win, __pyx_n_s_progress_end); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
@@ -3130,13 +3132,13 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   /* "voronoi.pyx":80
  * 
  *     win.progress_end()
- *     return objects             # <<<<<<<<<<<<<<
+ *     return chunks             # <<<<<<<<<<<<<<
  * 
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_objects);
-  __pyx_r = __pyx_v_objects;
+  __Pyx_INCREF(__pyx_v_chunks);
+  __pyx_r = __pyx_v_chunks;
   goto __pyx_L0;
 
   /* "voronoi.pyx":13
@@ -3170,7 +3172,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_input_points.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XDECREF(__pyx_v_win);
-  __Pyx_XDECREF(__pyx_v_objects);
+  __Pyx_XDECREF(__pyx_v_chunks);
   __Pyx_XDECREF(__pyx_v_from_point);
   __Pyx_XDECREF(__pyx_v_new_obj);
   __Pyx_XDECREF(__pyx_v_to_point);
@@ -3182,11 +3184,11 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
 }
 
 /* "voronoi.pyx":82
- *     return objects
+ *     return chunks
  * 
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):             # <<<<<<<<<<<<<<
- *     objects = fracture_voronoi(input_points, obj, total_chunks, selection)
- *     return objects
+ *     chunks = fracture_voronoi(input_points, obj, total_chunks, selection)
+ *     return chunks
  */
 
 /* Python wrapper */
@@ -3274,7 +3276,7 @@ static PyObject *__pyx_pw_7voronoi_1call_fracture_voronoi(PyObject *__pyx_self, 
 }
 
 static PyObject *__pyx_pf_7voronoi_call_fracture_voronoi(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input_points, PyObject *__pyx_v_obj, PyObject *__pyx_v_total_chunks, PyObject *__pyx_v_selection) {
-  PyObject *__pyx_v_objects = NULL;
+  PyObject *__pyx_v_chunks = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -3284,33 +3286,33 @@ static PyObject *__pyx_pf_7voronoi_call_fracture_voronoi(CYTHON_UNUSED PyObject 
   /* "voronoi.pyx":83
  * 
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):
- *     objects = fracture_voronoi(input_points, obj, total_chunks, selection)             # <<<<<<<<<<<<<<
- *     return objects
+ *     chunks = fracture_voronoi(input_points, obj, total_chunks, selection)             # <<<<<<<<<<<<<<
+ *     return chunks
  */
   if (!(likely(((__pyx_v_input_points) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_input_points, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 83, __pyx_L1_error)
   __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_total_chunks); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L1_error)
   if (!(likely(PyString_CheckExact(__pyx_v_selection))||((__pyx_v_selection) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_selection)->tp_name), 0))) __PYX_ERR(0, 83, __pyx_L1_error)
   __pyx_t_2 = __pyx_f_7voronoi_fracture_voronoi(((PyArrayObject *)__pyx_v_input_points), __pyx_v_obj, __pyx_t_1, ((PyObject*)__pyx_v_selection)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_objects = ((PyObject*)__pyx_t_2);
+  __pyx_v_chunks = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
   /* "voronoi.pyx":84
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):
- *     objects = fracture_voronoi(input_points, obj, total_chunks, selection)
- *     return objects             # <<<<<<<<<<<<<<
+ *     chunks = fracture_voronoi(input_points, obj, total_chunks, selection)
+ *     return chunks             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_objects);
-  __pyx_r = __pyx_v_objects;
+  __Pyx_INCREF(__pyx_v_chunks);
+  __pyx_r = __pyx_v_chunks;
   goto __pyx_L0;
 
   /* "voronoi.pyx":82
- *     return objects
+ *     return chunks
  * 
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):             # <<<<<<<<<<<<<<
- *     objects = fracture_voronoi(input_points, obj, total_chunks, selection)
- *     return objects
+ *     chunks = fracture_voronoi(input_points, obj, total_chunks, selection)
+ *     return chunks
  */
 
   /* function exit code */
@@ -3319,7 +3321,7 @@ static PyObject *__pyx_pf_7voronoi_call_fracture_voronoi(CYTHON_UNUSED PyObject 
   __Pyx_AddTraceback("voronoi.call_fracture_voronoi", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_objects);
+  __Pyx_XDECREF(__pyx_v_chunks);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -5809,6 +5811,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_bpy, __pyx_k_bpy, sizeof(__pyx_k_bpy), 0, 0, 1, 1},
   {&__pyx_n_s_call_fracture_voronoi, __pyx_k_call_fracture_voronoi, sizeof(__pyx_k_call_fracture_voronoi), 0, 0, 1, 1},
   {&__pyx_n_s_chunk, __pyx_k_chunk, sizeof(__pyx_k_chunk), 0, 0, 1, 1},
+  {&__pyx_n_s_chunks, __pyx_k_chunks, sizeof(__pyx_k_chunks), 0, 0, 1, 1},
   {&__pyx_n_s_clear_inner, __pyx_k_clear_inner, sizeof(__pyx_k_clear_inner), 0, 0, 1, 1},
   {&__pyx_n_s_clear_outer, __pyx_k_clear_outer, sizeof(__pyx_k_clear_outer), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
@@ -5955,13 +5958,13 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "voronoi.pyx":82
- *     return objects
+ *     return chunks
  * 
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):             # <<<<<<<<<<<<<<
- *     objects = fracture_voronoi(input_points, obj, total_chunks, selection)
- *     return objects
+ *     chunks = fracture_voronoi(input_points, obj, total_chunks, selection)
+ *     return chunks
  */
-  __pyx_tuple__8 = PyTuple_Pack(5, __pyx_n_s_input_points, __pyx_n_s_obj, __pyx_n_s_total_chunks, __pyx_n_s_selection, __pyx_n_s_objects); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(5, __pyx_n_s_input_points, __pyx_n_s_obj, __pyx_n_s_total_chunks, __pyx_n_s_selection, __pyx_n_s_chunks); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
   __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_voronoi_pyx, __pyx_n_s_call_fracture_voronoi, 82, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 82, __pyx_L1_error)
@@ -6318,11 +6321,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "voronoi.pyx":82
- *     return objects
+ *     return chunks
  * 
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):             # <<<<<<<<<<<<<<
- *     objects = fracture_voronoi(input_points, obj, total_chunks, selection)
- *     return objects
+ *     chunks = fracture_voronoi(input_points, obj, total_chunks, selection)
+ *     return chunks
  */
   __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_7voronoi_1call_fracture_voronoi, NULL, __pyx_n_s_voronoi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);

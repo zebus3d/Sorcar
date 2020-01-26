@@ -30,14 +30,14 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
     in_obj: PointerProperty(type=bpy.types.Object, update=ScNode.update_value)
     prop_obj_array: StringProperty(default="[]")
-    in_ifs: BoolProperty(default=False, description="Get the inner faces selected", update=ScNode.update_value)
+    in_ifs: BoolProperty(default=False, description="Select the inner faces", update=ScNode.update_value)
     in_bf: BoolProperty(default=False, description="The brute force method is slower but works better (especially with low numbers of points)", update=ScNode.update_value)
 
     def init(self, context):
         super().init(context)
         self.inputs.new("ScNodeSocketObject", "Center Points").init("in_obj", True)
         self.outputs.new("ScNodeSocketArray", "Chunks")
-        self.inputs.new("ScNodeSocketBool", "Get inner selection").init("in_ifs", True)
+        self.inputs.new("ScNodeSocketBool", "Inner selection").init("in_ifs", True)
         self.inputs.new("ScNodeSocketBool", "Brute Force").init("in_bf", True)
 
     def error_condition(self):
@@ -59,7 +59,7 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
     def qhull_qvoronoi(self, points, obj, total_chunks, selection):
         # qhull implementation:
-        objects = []
+        chunks = []
         num_paddin = len(str(total_chunks))
 
         if selection:
@@ -71,7 +71,7 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
             new_obj.name = "chunk_" + str(i+1).zfill(num_paddin)
             new_obj.data = obj.data.copy()
             bpy.context.collection.objects.link(new_obj)
-            objects.append(new_obj)
+            chunks.append(new_obj)
         
         # prepare input stdin:
         out_ponints = "3 rbox " + str(len(points)) + " D3\n" + str(len(points)) + "\n"
@@ -143,7 +143,7 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
             aim.normalize()
 
             bpy.ops.object.mode_set(mode='OBJECT')
-            bpy.context.view_layer.objects.active = objects[bounding_pair[0]]
+            bpy.context.view_layer.objects.active = chunks[bounding_pair[0]]
             bpy.ops.object.mode_set(mode='EDIT')
             bpy.ops.mesh.select_all(action='SELECT')
             bpy.ops.mesh.bisect(plane_co=voroCenter, plane_no=aim, use_fill=True, clear_outer=False, clear_inner=True)
@@ -156,7 +156,7 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
                 bpy.ops.mesh.select_all(action='DESELECT')
 
             bpy.ops.object.mode_set(mode='OBJECT')
-            bpy.context.view_layer.objects.active = objects[bounding_pair[1]]
+            bpy.context.view_layer.objects.active = chunks[bounding_pair[1]]
             bpy.ops.object.mode_set(mode='EDIT')
             bpy.ops.mesh.select_all(action='SELECT')
             bpy.ops.mesh.bisect(plane_co=voroCenter, plane_no=-aim, use_fill=True, clear_outer=False, clear_inner=True)
@@ -171,18 +171,18 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
         bpy.ops.object.mode_set(mode='OBJECT')
         win.progress_end()
-        return objects
+        return chunks
 
     def brute_force(self, input_points, obj, total_chunks, selection):
         # with cython:
-        objects = voronoi.call_fracture_voronoi(input_points, obj, total_chunks, selection)
-        return objects
+        chunks = voronoi.call_fracture_voronoi(input_points, obj, total_chunks, selection)
+        return chunks
 
         # python brute force:
         # win = bpy.context.window_manager
         # win.progress_begin(0, total_chunks)
         #
-        # objects  = []
+        # chunks  = []
         # num_paddin = len(str(total_chunks))
         #
         # i = 0
@@ -193,7 +193,7 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
         #     new_obj.name = "chunk_" + str(i + 1).zfill(num_paddin)
         #     new_obj.data = obj.data.copy()
         #     bpy.context.collection.objects.link(new_obj)
-        #     objects.append(new_obj)
+        #     chunks.append(new_obj)
         #     bpy.context.view_layer.objects.active = new_obj
         #
         #     if not bpy.context.active_object.select_get():
@@ -232,26 +232,28 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
         #     i += 1
         #
         # win.progress_end()
-        # return objects
+        # return chunks
 
     def functionality(self):
         points_obj = self.inputs["Center Points"].default_value
         obj = self.inputs["Object"].default_value
+        selection = self.inputs["Inner selection"].default_value
         bf = self.inputs["Brute Force"].default_value
         points = np.array([(points_obj.matrix_world @ v.co) for v in points_obj.data.vertices])
         total_chunks = len(points_obj.data.vertices)
 
-        # set to face mode:
-        if bpy.context.active_object.mode != 'EDIT':
-            bpy.ops.object.mode_set(mode='EDIT')
-        #
-        if not bpy.context.tool_settings.mesh_select_mode[2]:
-            bpy.context.tool_settings.mesh_select_mode = (False, False, True)
+        if selection:
+            # set to face mode:
+            if bpy.context.active_object.mode != 'EDIT':
+                bpy.ops.object.mode_set(mode='EDIT')
+            #
+            if not bpy.context.tool_settings.mesh_select_mode[2]:
+                bpy.context.tool_settings.mesh_select_mode = (False, False, True)
 
         if bpy.context.active_object.mode != 'OBJECT':
             bpy.ops.object.mode_set(mode='OBJECT')
 
-        if self.inputs["Get inner selection"].default_value:
+        if selection:
             # add new facemap inner:
             bpy.ops.object.face_map_add()
             bpy.context.active_object.face_maps[-1].name = "inner"
@@ -260,15 +262,15 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
         # hide original object:
         obj.hide_set(True)
 
-        selection = self.inputs["Get inner selection"].default_value
-        if bf:
-            objects = self.brute_force(points, obj, total_chunks, str(selection))
-        else:
-            objects = self.qhull_qvoronoi(points, obj, total_chunks, selection)
 
-        for i in range(len(objects)):
+        if bf:
+            chunks = self.brute_force(points, obj, total_chunks, str(selection))
+        else:
+            chunks = self.qhull_qvoronoi(points, obj, total_chunks, selection)
+
+        for i in range(len(chunks)):
             temp = eval(self.prop_obj_array)
-            temp.append(objects[i])
+            temp.append(chunks[i])
             self.prop_obj_array = repr(temp)
 
         # optional (set color random in viewport):
