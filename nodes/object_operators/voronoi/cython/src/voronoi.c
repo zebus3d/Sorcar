@@ -1888,23 +1888,26 @@ static PyObject *__pyx_codeobj__9;
  * 
  * cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, obj, int total_chunks, np.npy_bool selection):             # <<<<<<<<<<<<<<
  *     cdef list chunks  = []
- *     cdef str str_total_chunks = str(total_chunks)
+ *     cdef str name_facemap = 'inner'
  */
 
 static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_points, PyObject *__pyx_v_obj, int __pyx_v_total_chunks, npy_bool __pyx_v_selection) {
   PyObject *__pyx_v_chunks = 0;
-  PyObject *__pyx_v_str_total_chunks = 0;
-  int __pyx_v_num_paddin;
-  int __pyx_v_i;
-  PyArrayObject *__pyx_v_from_point = 0;
-  PyArrayObject *__pyx_v_to_point = 0;
   PyObject *__pyx_v_name_facemap = 0;
   PyObject *__pyx_v_edit_mode = 0;
   PyObject *__pyx_v_object_mode = 0;
   PyObject *__pyx_v_a_select = 0;
   PyObject *__pyx_v_a_deselect = 0;
-  int __pyx_v_p_begin;
   PyObject *__pyx_v_chunk_prefix = 0;
+  PyObject *__pyx_v_str_total_chunks = 0;
+  int __pyx_v_num_paddin;
+  int __pyx_v_i;
+  int __pyx_v_p_begin;
+  PyArrayObject *__pyx_v_from_point = 0;
+  PyArrayObject *__pyx_v_to_point = 0;
+  CYTHON_UNUSED npy_bool __pyx_v_use_fill;
+  CYTHON_UNUSED npy_bool __pyx_v_clear_outer;
+  CYTHON_UNUSED npy_bool __pyx_v_clear_inner;
   PyObject *__pyx_v_win = NULL;
   PyObject *__pyx_v_new_obj = NULL;
   PyObject *__pyx_v_from_point_v3 = NULL;
@@ -1969,8 +1972,8 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  * 
  * cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, obj, int total_chunks, np.npy_bool selection):
  *     cdef list chunks  = []             # <<<<<<<<<<<<<<
- *     cdef str str_total_chunks = str(total_chunks)
- *     cdef int num_paddin = len(str_total_chunks)
+ *     cdef str name_facemap = 'inner'
+ *     cdef str edit_mode = 'EDIT'
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1980,41 +1983,6 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   /* "voronoi.pyx":15
  * cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, obj, int total_chunks, np.npy_bool selection):
  *     cdef list chunks  = []
- *     cdef str str_total_chunks = str(total_chunks)             # <<<<<<<<<<<<<<
- *     cdef int num_paddin = len(str_total_chunks)
- *     cdef int i = 0
- */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_total_chunks); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 15, __pyx_L1_error)
-  __pyx_v_str_total_chunks = ((PyObject*)__pyx_t_2);
-  __pyx_t_2 = 0;
-
-  /* "voronoi.pyx":16
- *     cdef list chunks  = []
- *     cdef str str_total_chunks = str(total_chunks)
- *     cdef int num_paddin = len(str_total_chunks)             # <<<<<<<<<<<<<<
- *     cdef int i = 0
- *     cdef np.ndarray[np.float64_t, ndim=1] from_point
- */
-  __pyx_t_3 = PyObject_Length(__pyx_v_str_total_chunks); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 16, __pyx_L1_error)
-  __pyx_v_num_paddin = __pyx_t_3;
-
-  /* "voronoi.pyx":17
- *     cdef str str_total_chunks = str(total_chunks)
- *     cdef int num_paddin = len(str_total_chunks)
- *     cdef int i = 0             # <<<<<<<<<<<<<<
- *     cdef np.ndarray[np.float64_t, ndim=1] from_point
- *     cdef np.ndarray[np.float64_t, ndim=1] to_point
- */
-  __pyx_v_i = 0;
-
-  /* "voronoi.pyx":20
- *     cdef np.ndarray[np.float64_t, ndim=1] from_point
- *     cdef np.ndarray[np.float64_t, ndim=1] to_point
  *     cdef str name_facemap = 'inner'             # <<<<<<<<<<<<<<
  *     cdef str edit_mode = 'EDIT'
  *     cdef str object_mode = 'OBJECT'
@@ -2022,8 +1990,8 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   __Pyx_INCREF(__pyx_n_s_inner);
   __pyx_v_name_facemap = __pyx_n_s_inner;
 
-  /* "voronoi.pyx":21
- *     cdef np.ndarray[np.float64_t, ndim=1] to_point
+  /* "voronoi.pyx":16
+ *     cdef list chunks  = []
  *     cdef str name_facemap = 'inner'
  *     cdef str edit_mode = 'EDIT'             # <<<<<<<<<<<<<<
  *     cdef str object_mode = 'OBJECT'
@@ -2032,7 +2000,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   __Pyx_INCREF(__pyx_n_s_EDIT);
   __pyx_v_edit_mode = __pyx_n_s_EDIT;
 
-  /* "voronoi.pyx":22
+  /* "voronoi.pyx":17
  *     cdef str name_facemap = 'inner'
  *     cdef str edit_mode = 'EDIT'
  *     cdef str object_mode = 'OBJECT'             # <<<<<<<<<<<<<<
@@ -2042,75 +2010,137 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   __Pyx_INCREF(__pyx_n_s_OBJECT);
   __pyx_v_object_mode = __pyx_n_s_OBJECT;
 
-  /* "voronoi.pyx":23
+  /* "voronoi.pyx":18
  *     cdef str edit_mode = 'EDIT'
  *     cdef str object_mode = 'OBJECT'
  *     cdef str a_select = 'SELECT'             # <<<<<<<<<<<<<<
  *     cdef str a_deselect = 'DESELECT'
- *     cdef int p_begin = 0
+ *     cdef str chunk_prefix = 'chunk_'
  */
   __Pyx_INCREF(__pyx_n_s_SELECT);
   __pyx_v_a_select = __pyx_n_s_SELECT;
 
-  /* "voronoi.pyx":24
+  /* "voronoi.pyx":19
  *     cdef str object_mode = 'OBJECT'
  *     cdef str a_select = 'SELECT'
  *     cdef str a_deselect = 'DESELECT'             # <<<<<<<<<<<<<<
- *     cdef int p_begin = 0
  *     cdef str chunk_prefix = 'chunk_'
+ *     cdef str str_total_chunks = str(total_chunks)
  */
   __Pyx_INCREF(__pyx_n_s_DESELECT);
   __pyx_v_a_deselect = __pyx_n_s_DESELECT;
 
-  /* "voronoi.pyx":25
+  /* "voronoi.pyx":20
  *     cdef str a_select = 'SELECT'
  *     cdef str a_deselect = 'DESELECT'
- *     cdef int p_begin = 0             # <<<<<<<<<<<<<<
- *     cdef str chunk_prefix = 'chunk_'
- * 
- */
-  __pyx_v_p_begin = 0;
-
-  /* "voronoi.pyx":26
- *     cdef str a_deselect = 'DESELECT'
- *     cdef int p_begin = 0
  *     cdef str chunk_prefix = 'chunk_'             # <<<<<<<<<<<<<<
- * 
- *     win = bpy.context.window_manager
+ *     cdef str str_total_chunks = str(total_chunks)
+ *     cdef int num_paddin = len(str_total_chunks)
  */
   __Pyx_INCREF(__pyx_n_s_chunk);
   __pyx_v_chunk_prefix = __pyx_n_s_chunk;
 
-  /* "voronoi.pyx":28
+  /* "voronoi.pyx":21
+ *     cdef str a_deselect = 'DESELECT'
  *     cdef str chunk_prefix = 'chunk_'
+ *     cdef str str_total_chunks = str(total_chunks)             # <<<<<<<<<<<<<<
+ *     cdef int num_paddin = len(str_total_chunks)
+ *     cdef int i = 0
+ */
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_total_chunks); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_v_str_total_chunks = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
+
+  /* "voronoi.pyx":22
+ *     cdef str chunk_prefix = 'chunk_'
+ *     cdef str str_total_chunks = str(total_chunks)
+ *     cdef int num_paddin = len(str_total_chunks)             # <<<<<<<<<<<<<<
+ *     cdef int i = 0
+ *     cdef int p_begin = 0
+ */
+  __pyx_t_3 = PyObject_Length(__pyx_v_str_total_chunks); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_v_num_paddin = __pyx_t_3;
+
+  /* "voronoi.pyx":23
+ *     cdef str str_total_chunks = str(total_chunks)
+ *     cdef int num_paddin = len(str_total_chunks)
+ *     cdef int i = 0             # <<<<<<<<<<<<<<
+ *     cdef int p_begin = 0
+ *     cdef np.ndarray[np.float64_t, ndim=1] from_point
+ */
+  __pyx_v_i = 0;
+
+  /* "voronoi.pyx":24
+ *     cdef int num_paddin = len(str_total_chunks)
+ *     cdef int i = 0
+ *     cdef int p_begin = 0             # <<<<<<<<<<<<<<
+ *     cdef np.ndarray[np.float64_t, ndim=1] from_point
+ *     cdef np.ndarray[np.float64_t, ndim=1] to_point
+ */
+  __pyx_v_p_begin = 0;
+
+  /* "voronoi.pyx":27
+ *     cdef np.ndarray[np.float64_t, ndim=1] from_point
+ *     cdef np.ndarray[np.float64_t, ndim=1] to_point
+ *     cdef np.npy_bool use_fill = True             # <<<<<<<<<<<<<<
+ *     cdef np.npy_bool clear_outer = False
+ *     cdef np.npy_bool clear_inner = True
+ */
+  __pyx_v_use_fill = 1;
+
+  /* "voronoi.pyx":28
+ *     cdef np.ndarray[np.float64_t, ndim=1] to_point
+ *     cdef np.npy_bool use_fill = True
+ *     cdef np.npy_bool clear_outer = False             # <<<<<<<<<<<<<<
+ *     cdef np.npy_bool clear_inner = True
+ * 
+ */
+  __pyx_v_clear_outer = 0;
+
+  /* "voronoi.pyx":29
+ *     cdef np.npy_bool use_fill = True
+ *     cdef np.npy_bool clear_outer = False
+ *     cdef np.npy_bool clear_inner = True             # <<<<<<<<<<<<<<
+ * 
+ *     win = bpy.context.window_manager
+ */
+  __pyx_v_clear_inner = 1;
+
+  /* "voronoi.pyx":31
+ *     cdef np.npy_bool clear_inner = True
  * 
  *     win = bpy.context.window_manager             # <<<<<<<<<<<<<<
  *     win.progress_begin(p_begin, total_chunks)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_window_manager); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_window_manager); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_win = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "voronoi.pyx":29
+  /* "voronoi.pyx":32
  * 
  *     win = bpy.context.window_manager
  *     win.progress_begin(p_begin, total_chunks)             # <<<<<<<<<<<<<<
  * 
  *     if selection:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_win, __pyx_n_s_progress_begin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_win, __pyx_n_s_progress_begin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_p_begin); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_p_begin); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_total_chunks); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_total_chunks); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -2127,7 +2157,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_1)) {
     PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_4, __pyx_t_5};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2137,7 +2167,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
     PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_4, __pyx_t_5};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2145,7 +2175,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   } else
   #endif
   {
-    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 29, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_6) {
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -2156,14 +2186,14 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_5);
     __pyx_t_4 = 0;
     __pyx_t_5 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "voronoi.pyx":31
+  /* "voronoi.pyx":34
  *     win.progress_begin(p_begin, total_chunks)
  * 
  *     if selection:             # <<<<<<<<<<<<<<
@@ -2173,46 +2203,46 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   __pyx_t_9 = (__pyx_v_selection != 0);
   if (__pyx_t_9) {
 
-    /* "voronoi.pyx":33
+    /* "voronoi.pyx":36
  *     if selection:
  *         # set facemap inner:
  *         bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps[name_facemap].index             # <<<<<<<<<<<<<<
  * 
  *     for from_point in input_points:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_active_object); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_active_object); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_face_maps); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_face_maps); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_v_name_facemap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_v_name_facemap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_context); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 33, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_context); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_active_object); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_active_object); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_face_maps); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 33, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_face_maps); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_t_8, __pyx_n_s_active_index, __pyx_t_1) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_t_8, __pyx_n_s_active_index, __pyx_t_1) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "voronoi.pyx":31
+    /* "voronoi.pyx":34
  *     win.progress_begin(p_begin, total_chunks)
  * 
  *     if selection:             # <<<<<<<<<<<<<<
@@ -2221,7 +2251,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  */
   }
 
-  /* "voronoi.pyx":35
+  /* "voronoi.pyx":38
  *         bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps[name_facemap].index
  * 
  *     for from_point in input_points:             # <<<<<<<<<<<<<<
@@ -2232,26 +2262,26 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     __pyx_t_8 = ((PyObject *)__pyx_v_input_points); __Pyx_INCREF(__pyx_t_8); __pyx_t_3 = 0;
     __pyx_t_10 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_8 = PyObject_GetIter(((PyObject *)__pyx_v_input_points)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 35, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_8 = PyObject_GetIter(((PyObject *)__pyx_v_input_points)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_10 = Py_TYPE(__pyx_t_8)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 35, __pyx_L1_error)
+    __pyx_t_10 = Py_TYPE(__pyx_t_8)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 38, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_10)) {
       if (likely(PyList_CheckExact(__pyx_t_8))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_8)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 35, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 38, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_8, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_8, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_8)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 35, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 38, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_8, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_8, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -2261,13 +2291,13 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 35, __pyx_L1_error)
+          else __PYX_ERR(0, 38, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_1);
     }
-    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 35, __pyx_L1_error)
+    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 38, __pyx_L1_error)
     __pyx_t_11 = ((PyArrayObject *)__pyx_t_1);
     {
       __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2284,41 +2314,41 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
         __pyx_t_12 = __pyx_t_13 = __pyx_t_14 = 0;
       }
       __pyx_pybuffernd_from_point.diminfo[0].strides = __pyx_pybuffernd_from_point.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_from_point.diminfo[0].shape = __pyx_pybuffernd_from_point.rcbuffer->pybuffer.shape[0];
-      if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 35, __pyx_L1_error)
+      if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 38, __pyx_L1_error)
     }
     __pyx_t_11 = 0;
     __Pyx_XDECREF_SET(__pyx_v_from_point, ((PyArrayObject *)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "voronoi.pyx":36
+    /* "voronoi.pyx":39
  * 
  *     for from_point in input_points:
  *         bpy.context.view_layer.objects.active = obj             # <<<<<<<<<<<<<<
  *         new_obj = obj.copy()
  *         new_obj.name = chunk_prefix + str(i + 1).zfill(num_paddin)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_bpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_bpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_view_layer); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_view_layer); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_objects); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_objects); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_active, __pyx_v_obj) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_active, __pyx_v_obj) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "voronoi.pyx":37
+    /* "voronoi.pyx":40
  *     for from_point in input_points:
  *         bpy.context.view_layer.objects.active = obj
  *         new_obj = obj.copy()             # <<<<<<<<<<<<<<
  *         new_obj.name = chunk_prefix + str(i + 1).zfill(num_paddin)
  *         new_obj.data = obj.data.copy()
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_obj, __pyx_n_s_copy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_obj, __pyx_n_s_copy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -2332,28 +2362,28 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     }
     __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_new_obj, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "voronoi.pyx":38
+    /* "voronoi.pyx":41
  *         bpy.context.view_layer.objects.active = obj
  *         new_obj = obj.copy()
  *         new_obj.name = chunk_prefix + str(i + 1).zfill(num_paddin)             # <<<<<<<<<<<<<<
  *         new_obj.data = obj.data.copy()
  *         bpy.context.collection.objects.link(new_obj)
  */
-    __pyx_t_1 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_long((__pyx_v_i + 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zfill); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zfill); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_num_paddin); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_num_paddin); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -2368,25 +2398,25 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyNumber_Add(__pyx_v_chunk_prefix, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_v_chunk_prefix, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_new_obj, __pyx_n_s_name, __pyx_t_1) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_new_obj, __pyx_n_s_name, __pyx_t_1) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "voronoi.pyx":39
+    /* "voronoi.pyx":42
  *         new_obj = obj.copy()
  *         new_obj.name = chunk_prefix + str(i + 1).zfill(num_paddin)
  *         new_obj.data = obj.data.copy()             # <<<<<<<<<<<<<<
  *         bpy.context.collection.objects.link(new_obj)
  *         chunks.append(new_obj)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_obj, __pyx_n_s_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_obj, __pyx_n_s_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = NULL;
@@ -2401,31 +2431,31 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     }
     __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_new_obj, __pyx_n_s_data, __pyx_t_1) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_new_obj, __pyx_n_s_data, __pyx_t_1) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "voronoi.pyx":40
+    /* "voronoi.pyx":43
  *         new_obj.name = chunk_prefix + str(i + 1).zfill(num_paddin)
  *         new_obj.data = obj.data.copy()
  *         bpy.context.collection.objects.link(new_obj)             # <<<<<<<<<<<<<<
  *         chunks.append(new_obj)
  *         bpy.context.view_layer.objects.active = new_obj
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_bpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_bpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_context); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_context); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_collection); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_collection); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_objects); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_objects); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_link); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_link); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = NULL;
@@ -2440,57 +2470,57 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     }
     __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_2, __pyx_v_new_obj) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_new_obj);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "voronoi.pyx":41
+    /* "voronoi.pyx":44
  *         new_obj.data = obj.data.copy()
  *         bpy.context.collection.objects.link(new_obj)
  *         chunks.append(new_obj)             # <<<<<<<<<<<<<<
  *         bpy.context.view_layer.objects.active = new_obj
  * 
  */
-    __pyx_t_15 = __Pyx_PyList_Append(__pyx_v_chunks, __pyx_v_new_obj); if (unlikely(__pyx_t_15 == ((int)-1))) __PYX_ERR(0, 41, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyList_Append(__pyx_v_chunks, __pyx_v_new_obj); if (unlikely(__pyx_t_15 == ((int)-1))) __PYX_ERR(0, 44, __pyx_L1_error)
 
-    /* "voronoi.pyx":42
+    /* "voronoi.pyx":45
  *         bpy.context.collection.objects.link(new_obj)
  *         chunks.append(new_obj)
  *         bpy.context.view_layer.objects.active = new_obj             # <<<<<<<<<<<<<<
  * 
  *         if not bpy.context.active_object.select_get():
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_bpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_bpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_view_layer); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_view_layer); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_objects); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_objects); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_t_5, __pyx_n_s_active, __pyx_v_new_obj) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_t_5, __pyx_n_s_active, __pyx_v_new_obj) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "voronoi.pyx":44
+    /* "voronoi.pyx":47
  *         bpy.context.view_layer.objects.active = new_obj
  * 
  *         if not bpy.context.active_object.select_get():             # <<<<<<<<<<<<<<
  *             bpy.context.active_object.select_set(True)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_bpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_bpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_active_object); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_active_object); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_select_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_select_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = NULL;
@@ -2505,30 +2535,30 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     }
     __pyx_t_5 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 44, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_16 = ((!__pyx_t_9) != 0);
     if (__pyx_t_16) {
 
-      /* "voronoi.pyx":45
+      /* "voronoi.pyx":48
  * 
  *         if not bpy.context.active_object.select_get():
  *             bpy.context.active_object.select_set(True)             # <<<<<<<<<<<<<<
  * 
  *         bpy.ops.object.mode_set(mode=edit_mode)
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_active_object); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_active_object); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_select_set); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_select_set); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_2 = NULL;
@@ -2543,12 +2573,12 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       }
       __pyx_t_5 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_2, Py_True) : __Pyx_PyObject_CallOneArg(__pyx_t_1, Py_True);
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 45, __pyx_L1_error)
+      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 48, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "voronoi.pyx":44
+      /* "voronoi.pyx":47
  *         bpy.context.view_layer.objects.active = new_obj
  * 
  *         if not bpy.context.active_object.select_get():             # <<<<<<<<<<<<<<
@@ -2557,34 +2587,34 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  */
     }
 
-    /* "voronoi.pyx":47
+    /* "voronoi.pyx":50
  *             bpy.context.active_object.select_set(True)
  * 
  *         bpy.ops.object.mode_set(mode=edit_mode)             # <<<<<<<<<<<<<<
  * 
  *         for to_point in input_points:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_bpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_bpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_ops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_ops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_object); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_object); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_mode_set); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_mode_set); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_mode, __pyx_v_edit_mode) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_mode, __pyx_v_edit_mode) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "voronoi.pyx":49
+    /* "voronoi.pyx":52
  *         bpy.ops.object.mode_set(mode=edit_mode)
  * 
  *         for to_point in input_points:             # <<<<<<<<<<<<<<
@@ -2595,26 +2625,26 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       __pyx_t_2 = ((PyObject *)__pyx_v_input_points); __Pyx_INCREF(__pyx_t_2); __pyx_t_17 = 0;
       __pyx_t_18 = NULL;
     } else {
-      __pyx_t_17 = -1; __pyx_t_2 = PyObject_GetIter(((PyObject *)__pyx_v_input_points)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+      __pyx_t_17 = -1; __pyx_t_2 = PyObject_GetIter(((PyObject *)__pyx_v_input_points)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_18 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 49, __pyx_L1_error)
+      __pyx_t_18 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 52, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_18)) {
         if (likely(PyList_CheckExact(__pyx_t_2))) {
           if (__pyx_t_17 >= PyList_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_17); __Pyx_INCREF(__pyx_t_5); __pyx_t_17++; if (unlikely(0 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
+          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_17); __Pyx_INCREF(__pyx_t_5); __pyx_t_17++; if (unlikely(0 < 0)) __PYX_ERR(0, 52, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 49, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 52, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         } else {
           if (__pyx_t_17 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_17); __Pyx_INCREF(__pyx_t_5); __pyx_t_17++; if (unlikely(0 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_17); __Pyx_INCREF(__pyx_t_5); __pyx_t_17++; if (unlikely(0 < 0)) __PYX_ERR(0, 52, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 49, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 52, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         }
@@ -2624,13 +2654,13 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 49, __pyx_L1_error)
+            else __PYX_ERR(0, 52, __pyx_L1_error)
           }
           break;
         }
         __Pyx_GOTREF(__pyx_t_5);
       }
-      if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 49, __pyx_L1_error)
+      if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 52, __pyx_L1_error)
       __pyx_t_19 = ((PyArrayObject *)__pyx_t_5);
       {
         __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2647,20 +2677,20 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
           __pyx_t_14 = __pyx_t_13 = __pyx_t_12 = 0;
         }
         __pyx_pybuffernd_to_point.diminfo[0].strides = __pyx_pybuffernd_to_point.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_to_point.diminfo[0].shape = __pyx_pybuffernd_to_point.rcbuffer->pybuffer.shape[0];
-        if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
+        if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 52, __pyx_L1_error)
       }
       __pyx_t_19 = 0;
       __Pyx_XDECREF_SET(__pyx_v_to_point, ((PyArrayObject *)__pyx_t_5));
       __pyx_t_5 = 0;
 
-      /* "voronoi.pyx":51
+      /* "voronoi.pyx":54
  *         for to_point in input_points:
  * 
  *             from_point_v3 = Vector((from_point[0], from_point[1], from_point[2]))             # <<<<<<<<<<<<<<
  *             to_point_v3 = Vector((to_point[0], to_point[1], to_point[2]))
  * 
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Vector); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Vector); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_20 = 0;
       __pyx_t_7 = -1;
@@ -2670,9 +2700,9 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       } else if (unlikely(__pyx_t_20 >= __pyx_pybuffernd_from_point.diminfo[0].shape)) __pyx_t_7 = 0;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(0, 51, __pyx_L1_error)
+        __PYX_ERR(0, 54, __pyx_L1_error)
       }
-      __pyx_t_4 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_from_point.rcbuffer->pybuffer.buf, __pyx_t_20, __pyx_pybuffernd_from_point.diminfo[0].strides))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_4 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_from_point.rcbuffer->pybuffer.buf, __pyx_t_20, __pyx_pybuffernd_from_point.diminfo[0].strides))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_21 = 1;
       __pyx_t_7 = -1;
@@ -2682,9 +2712,9 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       } else if (unlikely(__pyx_t_21 >= __pyx_pybuffernd_from_point.diminfo[0].shape)) __pyx_t_7 = 0;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(0, 51, __pyx_L1_error)
+        __PYX_ERR(0, 54, __pyx_L1_error)
       }
-      __pyx_t_6 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_from_point.rcbuffer->pybuffer.buf, __pyx_t_21, __pyx_pybuffernd_from_point.diminfo[0].strides))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_6 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_from_point.rcbuffer->pybuffer.buf, __pyx_t_21, __pyx_pybuffernd_from_point.diminfo[0].strides))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_22 = 2;
       __pyx_t_7 = -1;
@@ -2694,11 +2724,11 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       } else if (unlikely(__pyx_t_22 >= __pyx_pybuffernd_from_point.diminfo[0].shape)) __pyx_t_7 = 0;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(0, 51, __pyx_L1_error)
+        __PYX_ERR(0, 54, __pyx_L1_error)
       }
-      __pyx_t_23 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_from_point.rcbuffer->pybuffer.buf, __pyx_t_22, __pyx_pybuffernd_from_point.diminfo[0].strides))); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_23 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_from_point.rcbuffer->pybuffer.buf, __pyx_t_22, __pyx_pybuffernd_from_point.diminfo[0].strides))); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 54, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_23);
-      __pyx_t_24 = PyTuple_New(3); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_24 = PyTuple_New(3); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 54, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_24);
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_24, 0, __pyx_t_4);
@@ -2722,20 +2752,20 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       __pyx_t_5 = (__pyx_t_23) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_23, __pyx_t_24) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_24);
       __Pyx_XDECREF(__pyx_t_23); __pyx_t_23 = 0;
       __Pyx_DECREF(__pyx_t_24); __pyx_t_24 = 0;
-      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
+      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_XDECREF_SET(__pyx_v_from_point_v3, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "voronoi.pyx":52
+      /* "voronoi.pyx":55
  * 
  *             from_point_v3 = Vector((from_point[0], from_point[1], from_point[2]))
  *             to_point_v3 = Vector((to_point[0], to_point[1], to_point[2]))             # <<<<<<<<<<<<<<
  * 
  *             if from_point_v3 != to_point_v3:
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Vector); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Vector); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_25 = 0;
       __pyx_t_7 = -1;
@@ -2745,9 +2775,9 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       } else if (unlikely(__pyx_t_25 >= __pyx_pybuffernd_to_point.diminfo[0].shape)) __pyx_t_7 = 0;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 55, __pyx_L1_error)
       }
-      __pyx_t_24 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_to_point.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_to_point.diminfo[0].strides))); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 52, __pyx_L1_error)
+      __pyx_t_24 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_to_point.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_to_point.diminfo[0].strides))); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_24);
       __pyx_t_26 = 1;
       __pyx_t_7 = -1;
@@ -2757,9 +2787,9 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       } else if (unlikely(__pyx_t_26 >= __pyx_pybuffernd_to_point.diminfo[0].shape)) __pyx_t_7 = 0;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 55, __pyx_L1_error)
       }
-      __pyx_t_23 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_to_point.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_to_point.diminfo[0].strides))); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 52, __pyx_L1_error)
+      __pyx_t_23 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_to_point.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_to_point.diminfo[0].strides))); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_23);
       __pyx_t_27 = 2;
       __pyx_t_7 = -1;
@@ -2769,11 +2799,11 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       } else if (unlikely(__pyx_t_27 >= __pyx_pybuffernd_to_point.diminfo[0].shape)) __pyx_t_7 = 0;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 55, __pyx_L1_error)
       }
-      __pyx_t_6 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_to_point.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_to_point.diminfo[0].strides))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 52, __pyx_L1_error)
+      __pyx_t_6 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_to_point.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_to_point.diminfo[0].strides))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_24);
       PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_24);
@@ -2797,36 +2827,36 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_4);
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 52, __pyx_L1_error)
+      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 55, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_XDECREF_SET(__pyx_v_to_point_v3, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "voronoi.pyx":54
+      /* "voronoi.pyx":57
  *             to_point_v3 = Vector((to_point[0], to_point[1], to_point[2]))
  * 
  *             if from_point_v3 != to_point_v3:             # <<<<<<<<<<<<<<
  *                 # Calculate the Perpendicular Bisector Plane
  *                 voro_center = Vector(((to_point_v3 + from_point_v3) * 0.5))
  */
-      __pyx_t_5 = PyObject_RichCompare(__pyx_v_from_point_v3, __pyx_v_to_point_v3, Py_NE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
-      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __pyx_t_5 = PyObject_RichCompare(__pyx_v_from_point_v3, __pyx_v_to_point_v3, Py_NE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L1_error)
+      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 57, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (__pyx_t_16) {
 
-        /* "voronoi.pyx":56
+        /* "voronoi.pyx":59
  *             if from_point_v3 != to_point_v3:
  *                 # Calculate the Perpendicular Bisector Plane
  *                 voro_center = Vector(((to_point_v3 + from_point_v3) * 0.5))             # <<<<<<<<<<<<<<
  *                 aim = Vector((from_point_v3 - to_point_v3))
  *                 aim.normalize()
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Vector); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Vector); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_4 = PyNumber_Add(__pyx_v_to_point_v3, __pyx_v_from_point_v3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 56, __pyx_L1_error)
+        __pyx_t_4 = PyNumber_Add(__pyx_v_to_point_v3, __pyx_v_from_point_v3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_6 = PyNumber_Multiply(__pyx_t_4, __pyx_float_0_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 56, __pyx_L1_error)
+        __pyx_t_6 = PyNumber_Multiply(__pyx_t_4, __pyx_float_0_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 59, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __pyx_t_4 = NULL;
@@ -2842,22 +2872,22 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
         __pyx_t_5 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_6);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 56, __pyx_L1_error)
+        if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_XDECREF_SET(__pyx_v_voro_center, __pyx_t_5);
         __pyx_t_5 = 0;
 
-        /* "voronoi.pyx":57
+        /* "voronoi.pyx":60
  *                 # Calculate the Perpendicular Bisector Plane
  *                 voro_center = Vector(((to_point_v3 + from_point_v3) * 0.5))
  *                 aim = Vector((from_point_v3 - to_point_v3))             # <<<<<<<<<<<<<<
  *                 aim.normalize()
  * 
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Vector); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Vector); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_6 = PyNumber_Subtract(__pyx_v_from_point_v3, __pyx_v_to_point_v3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __pyx_t_6 = PyNumber_Subtract(__pyx_v_from_point_v3, __pyx_v_to_point_v3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 60, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __pyx_t_4 = NULL;
         if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -2872,20 +2902,20 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
         __pyx_t_5 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_6);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L1_error)
+        if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_XDECREF_SET(__pyx_v_aim, __pyx_t_5);
         __pyx_t_5 = 0;
 
-        /* "voronoi.pyx":58
+        /* "voronoi.pyx":61
  *                 voro_center = Vector(((to_point_v3 + from_point_v3) * 0.5))
  *                 aim = Vector((from_point_v3 - to_point_v3))
  *                 aim.normalize()             # <<<<<<<<<<<<<<
  * 
  *                 # Bullet Shatter
  */
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_aim, __pyx_n_s_normalize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_aim, __pyx_n_s_normalize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_t_6 = NULL;
         if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -2899,118 +2929,118 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
         }
         __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-        if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 58, __pyx_L1_error)
+        if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "voronoi.pyx":61
+        /* "voronoi.pyx":64
  * 
  *                 # Bullet Shatter
  *                 bpy.ops.mesh.select_all(action=a_select)             # <<<<<<<<<<<<<<
  *                 bpy.ops.mesh.bisect(
  *                     plane_co=voro_center,
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_bpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_bpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_ops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_ops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mesh); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mesh); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_select_all); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_select_all); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_action, __pyx_v_a_select) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_action, __pyx_v_a_select) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "voronoi.pyx":62
+        /* "voronoi.pyx":65
  *                 # Bullet Shatter
  *                 bpy.ops.mesh.select_all(action=a_select)
  *                 bpy.ops.mesh.bisect(             # <<<<<<<<<<<<<<
  *                     plane_co=voro_center,
  *                     plane_no=aim,
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_bpy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_bpy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 65, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ops); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ops); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_mesh); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_mesh); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 65, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_bisect); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_bisect); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "voronoi.pyx":63
+        /* "voronoi.pyx":66
  *                 bpy.ops.mesh.select_all(action=a_select)
  *                 bpy.ops.mesh.bisect(
  *                     plane_co=voro_center,             # <<<<<<<<<<<<<<
  *                     plane_no=aim,
  *                     use_fill=True,
  */
-        __pyx_t_6 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 63, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 66, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_plane_co, __pyx_v_voro_center) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_plane_co, __pyx_v_voro_center) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
 
-        /* "voronoi.pyx":64
+        /* "voronoi.pyx":67
  *                 bpy.ops.mesh.bisect(
  *                     plane_co=voro_center,
  *                     plane_no=aim,             # <<<<<<<<<<<<<<
  *                     use_fill=True,
  *                     clear_outer=False,
  */
-        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_plane_no, __pyx_v_aim) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_plane_no, __pyx_v_aim) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
 
-        /* "voronoi.pyx":65
+        /* "voronoi.pyx":68
  *                     plane_co=voro_center,
  *                     plane_no=aim,
  *                     use_fill=True,             # <<<<<<<<<<<<<<
  *                     clear_outer=False,
  *                     clear_inner=True
  */
-        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_use_fill, Py_True) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_use_fill, Py_True) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
 
-        /* "voronoi.pyx":66
+        /* "voronoi.pyx":69
  *                     plane_no=aim,
  *                     use_fill=True,
  *                     clear_outer=False,             # <<<<<<<<<<<<<<
  *                     clear_inner=True
  *                 )
  */
-        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_clear_outer, Py_False) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_clear_outer, Py_False) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
 
-        /* "voronoi.pyx":67
+        /* "voronoi.pyx":70
  *                     use_fill=True,
  *                     clear_outer=False,
  *                     clear_inner=True             # <<<<<<<<<<<<<<
  *                 )
  *                 if selection:
  */
-        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_clear_inner, Py_True) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_clear_inner, Py_True) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
 
-        /* "voronoi.pyx":62
+        /* "voronoi.pyx":65
  *                 # Bullet Shatter
  *                 bpy.ops.mesh.select_all(action=a_select)
  *                 bpy.ops.mesh.bisect(             # <<<<<<<<<<<<<<
  *                     plane_co=voro_center,
  *                     plane_no=aim,
  */
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "voronoi.pyx":69
+        /* "voronoi.pyx":72
  *                     clear_inner=True
  *                 )
  *                 if selection:             # <<<<<<<<<<<<<<
@@ -3020,22 +3050,22 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
         __pyx_t_16 = (__pyx_v_selection != 0);
         if (__pyx_t_16) {
 
-          /* "voronoi.pyx":71
+          /* "voronoi.pyx":74
  *                 if selection:
  *                     # assing facemap inner:
  *                     bpy.ops.object.face_map_assign()             # <<<<<<<<<<<<<<
  * 
  *         if selection:
  */
-          __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_bpy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
+          __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_bpy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 74, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ops); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ops); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_object); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_object); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 74, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_face_map_assign); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_face_map_assign); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           __pyx_t_6 = NULL;
@@ -3050,12 +3080,12 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
           }
           __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
           __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-          if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+          if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-          /* "voronoi.pyx":69
+          /* "voronoi.pyx":72
  *                     clear_inner=True
  *                 )
  *                 if selection:             # <<<<<<<<<<<<<<
@@ -3064,7 +3094,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  */
         }
 
-        /* "voronoi.pyx":54
+        /* "voronoi.pyx":57
  *             to_point_v3 = Vector((to_point[0], to_point[1], to_point[2]))
  * 
  *             if from_point_v3 != to_point_v3:             # <<<<<<<<<<<<<<
@@ -3073,7 +3103,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  */
       }
 
-      /* "voronoi.pyx":49
+      /* "voronoi.pyx":52
  *         bpy.ops.object.mode_set(mode=edit_mode)
  * 
  *         for to_point in input_points:             # <<<<<<<<<<<<<<
@@ -3083,7 +3113,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "voronoi.pyx":73
+    /* "voronoi.pyx":76
  *                     bpy.ops.object.face_map_assign()
  * 
  *         if selection:             # <<<<<<<<<<<<<<
@@ -3093,22 +3123,22 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     __pyx_t_16 = (__pyx_v_selection != 0);
     if (__pyx_t_16) {
 
-      /* "voronoi.pyx":75
+      /* "voronoi.pyx":78
  *         if selection:
  *             # select facemap inner:
  *             bpy.ops.object.face_map_select()             # <<<<<<<<<<<<<<
  *         else:
  *             bpy.ops.mesh.select_all(action=a_deselect)
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_bpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_bpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_ops); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 75, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_ops); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_object); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_object); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_face_map_select); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 75, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_face_map_select); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_1 = NULL;
@@ -3123,12 +3153,12 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       }
       __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "voronoi.pyx":73
+      /* "voronoi.pyx":76
  *                     bpy.ops.object.face_map_assign()
  * 
  *         if selection:             # <<<<<<<<<<<<<<
@@ -3138,7 +3168,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
       goto __pyx_L11;
     }
 
-    /* "voronoi.pyx":77
+    /* "voronoi.pyx":80
  *             bpy.ops.object.face_map_select()
  *         else:
  *             bpy.ops.mesh.select_all(action=a_deselect)             # <<<<<<<<<<<<<<
@@ -3146,21 +3176,21 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  *         if bpy.context.active_object.mode != object_mode:
  */
     /*else*/ {
-      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ops); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ops); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_mesh); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_mesh); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_select_all); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_select_all); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_action, __pyx_v_a_deselect) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_action, __pyx_v_a_deselect) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3168,56 +3198,56 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     }
     __pyx_L11:;
 
-    /* "voronoi.pyx":79
+    /* "voronoi.pyx":82
  *             bpy.ops.mesh.select_all(action=a_deselect)
  * 
  *         if bpy.context.active_object.mode != object_mode:             # <<<<<<<<<<<<<<
  *             bpy.ops.object.mode_set(mode=object_mode)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_bpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_bpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_active_object); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_active_object); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_16 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_v_object_mode, Py_NE)); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_16 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_v_object_mode, Py_NE)); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_16) {
 
-      /* "voronoi.pyx":80
+      /* "voronoi.pyx":83
  * 
  *         if bpy.context.active_object.mode != object_mode:
  *             bpy.ops.object.mode_set(mode=object_mode)             # <<<<<<<<<<<<<<
  * 
  *         bpy.ops.object.select_all(action=a_deselect)
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_bpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_object); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_object); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_mode_set); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_mode_set); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_mode, __pyx_v_object_mode) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_mode, __pyx_v_object_mode) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 83, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "voronoi.pyx":79
+      /* "voronoi.pyx":82
  *             bpy.ops.mesh.select_all(action=a_deselect)
  * 
  *         if bpy.context.active_object.mode != object_mode:             # <<<<<<<<<<<<<<
@@ -3226,43 +3256,43 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  */
     }
 
-    /* "voronoi.pyx":82
+    /* "voronoi.pyx":85
  *             bpy.ops.object.mode_set(mode=object_mode)
  * 
  *         bpy.ops.object.select_all(action=a_deselect)             # <<<<<<<<<<<<<<
  * 
  *         win.progress_update(i)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_bpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_bpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_ops); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_ops); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_object); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_object); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_select_all); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_select_all); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_action, __pyx_v_a_deselect) < 0) __PYX_ERR(0, 82, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_action, __pyx_v_a_deselect) < 0) __PYX_ERR(0, 85, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "voronoi.pyx":84
+    /* "voronoi.pyx":87
  *         bpy.ops.object.select_all(action=a_deselect)
  * 
  *         win.progress_update(i)             # <<<<<<<<<<<<<<
  *         i += 1
  * 
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_win, __pyx_n_s_progress_update); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_win, __pyx_n_s_progress_update); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -3277,12 +3307,12 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
     __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "voronoi.pyx":85
+    /* "voronoi.pyx":88
  * 
  *         win.progress_update(i)
  *         i += 1             # <<<<<<<<<<<<<<
@@ -3291,7 +3321,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  */
     __pyx_v_i = (__pyx_v_i + 1);
 
-    /* "voronoi.pyx":35
+    /* "voronoi.pyx":38
  *         bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps[name_facemap].index
  * 
  *     for from_point in input_points:             # <<<<<<<<<<<<<<
@@ -3301,14 +3331,14 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   }
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "voronoi.pyx":87
+  /* "voronoi.pyx":90
  *         i += 1
  * 
  *     win.progress_end()             # <<<<<<<<<<<<<<
  *     return chunks
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_win, __pyx_n_s_progress_end); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_win, __pyx_n_s_progress_end); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -3322,12 +3352,12 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   }
   __pyx_t_8 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 87, __pyx_L1_error)
+  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "voronoi.pyx":88
+  /* "voronoi.pyx":91
  * 
  *     win.progress_end()
  *     return chunks             # <<<<<<<<<<<<<<
@@ -3344,7 +3374,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
  * 
  * cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, obj, int total_chunks, np.npy_bool selection):             # <<<<<<<<<<<<<<
  *     cdef list chunks  = []
- *     cdef str str_total_chunks = str(total_chunks)
+ *     cdef str name_facemap = 'inner'
  */
 
   /* function exit code */
@@ -3374,15 +3404,15 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_to_point.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XDECREF(__pyx_v_chunks);
-  __Pyx_XDECREF(__pyx_v_str_total_chunks);
-  __Pyx_XDECREF((PyObject *)__pyx_v_from_point);
-  __Pyx_XDECREF((PyObject *)__pyx_v_to_point);
   __Pyx_XDECREF(__pyx_v_name_facemap);
   __Pyx_XDECREF(__pyx_v_edit_mode);
   __Pyx_XDECREF(__pyx_v_object_mode);
   __Pyx_XDECREF(__pyx_v_a_select);
   __Pyx_XDECREF(__pyx_v_a_deselect);
   __Pyx_XDECREF(__pyx_v_chunk_prefix);
+  __Pyx_XDECREF(__pyx_v_str_total_chunks);
+  __Pyx_XDECREF((PyObject *)__pyx_v_from_point);
+  __Pyx_XDECREF((PyObject *)__pyx_v_to_point);
   __Pyx_XDECREF(__pyx_v_win);
   __Pyx_XDECREF(__pyx_v_new_obj);
   __Pyx_XDECREF(__pyx_v_from_point_v3);
@@ -3394,7 +3424,7 @@ static PyObject *__pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_
   return __pyx_r;
 }
 
-/* "voronoi.pyx":90
+/* "voronoi.pyx":93
  *     return chunks
  * 
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):             # <<<<<<<<<<<<<<
@@ -3440,23 +3470,23 @@ static PyObject *__pyx_pw_7voronoi_1call_fracture_voronoi(PyObject *__pyx_self, 
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_obj)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("call_fracture_voronoi", 1, 4, 4, 1); __PYX_ERR(0, 90, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("call_fracture_voronoi", 1, 4, 4, 1); __PYX_ERR(0, 93, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_total_chunks)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("call_fracture_voronoi", 1, 4, 4, 2); __PYX_ERR(0, 90, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("call_fracture_voronoi", 1, 4, 4, 2); __PYX_ERR(0, 93, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_selection)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("call_fracture_voronoi", 1, 4, 4, 3); __PYX_ERR(0, 90, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("call_fracture_voronoi", 1, 4, 4, 3); __PYX_ERR(0, 93, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "call_fracture_voronoi") < 0)) __PYX_ERR(0, 90, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "call_fracture_voronoi") < 0)) __PYX_ERR(0, 93, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -3473,7 +3503,7 @@ static PyObject *__pyx_pw_7voronoi_1call_fracture_voronoi(PyObject *__pyx_self, 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("call_fracture_voronoi", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 90, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("call_fracture_voronoi", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 93, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("voronoi.call_fracture_voronoi", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3495,21 +3525,21 @@ static PyObject *__pyx_pf_7voronoi_call_fracture_voronoi(CYTHON_UNUSED PyObject 
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("call_fracture_voronoi", 0);
 
-  /* "voronoi.pyx":91
+  /* "voronoi.pyx":94
  * 
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):
  *     chunks = fracture_voronoi(input_points, obj, total_chunks, selection)             # <<<<<<<<<<<<<<
  *     return chunks
  */
-  if (!(likely(((__pyx_v_input_points) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_input_points, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 91, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_total_chunks); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 91, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_As_npy_bool(__pyx_v_selection); if (unlikely((__pyx_t_2 == ((npy_bool)-1)) && PyErr_Occurred())) __PYX_ERR(0, 91, __pyx_L1_error)
-  __pyx_t_3 = __pyx_f_7voronoi_fracture_voronoi(((PyArrayObject *)__pyx_v_input_points), __pyx_v_obj, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)
+  if (!(likely(((__pyx_v_input_points) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_input_points, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_total_chunks); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_npy_bool(__pyx_v_selection); if (unlikely((__pyx_t_2 == ((npy_bool)-1)) && PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_7voronoi_fracture_voronoi(((PyArrayObject *)__pyx_v_input_points), __pyx_v_obj, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_chunks = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "voronoi.pyx":92
+  /* "voronoi.pyx":95
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):
  *     chunks = fracture_voronoi(input_points, obj, total_chunks, selection)
  *     return chunks             # <<<<<<<<<<<<<<
@@ -3519,7 +3549,7 @@ static PyObject *__pyx_pf_7voronoi_call_fracture_voronoi(CYTHON_UNUSED PyObject 
   __pyx_r = __pyx_v_chunks;
   goto __pyx_L0;
 
-  /* "voronoi.pyx":90
+  /* "voronoi.pyx":93
  *     return chunks
  * 
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):             # <<<<<<<<<<<<<<
@@ -6168,17 +6198,17 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "voronoi.pyx":90
+  /* "voronoi.pyx":93
  *     return chunks
  * 
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):             # <<<<<<<<<<<<<<
  *     chunks = fracture_voronoi(input_points, obj, total_chunks, selection)
  *     return chunks
  */
-  __pyx_tuple__8 = PyTuple_Pack(5, __pyx_n_s_input_points, __pyx_n_s_obj, __pyx_n_s_total_chunks, __pyx_n_s_selection, __pyx_n_s_chunks); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(5, __pyx_n_s_input_points, __pyx_n_s_obj, __pyx_n_s_total_chunks, __pyx_n_s_selection, __pyx_n_s_chunks); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_voronoi_pyx, __pyx_n_s_call_fracture_voronoi, 90, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_voronoi_pyx, __pyx_n_s_call_fracture_voronoi, 93, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6530,16 +6560,16 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "voronoi.pyx":90
+  /* "voronoi.pyx":93
  *     return chunks
  * 
  * def call_fracture_voronoi(input_points, obj, total_chunks, selection):             # <<<<<<<<<<<<<<
  *     chunks = fracture_voronoi(input_points, obj, total_chunks, selection)
  *     return chunks
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_7voronoi_1call_fracture_voronoi, NULL, __pyx_n_s_voronoi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_7voronoi_1call_fracture_voronoi, NULL, __pyx_n_s_voronoi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_call_fracture_voronoi, __pyx_t_2) < 0) __PYX_ERR(0, 90, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_call_fracture_voronoi, __pyx_t_2) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "voronoi.pyx":1

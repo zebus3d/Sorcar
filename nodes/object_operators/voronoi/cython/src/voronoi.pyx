@@ -12,18 +12,21 @@ cimport numpy as np
 
 cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, obj, int total_chunks, np.npy_bool selection):
     cdef list chunks  = []
-    cdef str str_total_chunks = str(total_chunks)
-    cdef int num_paddin = len(str_total_chunks)
-    cdef int i = 0
-    cdef np.ndarray[np.float64_t, ndim=1] from_point
-    cdef np.ndarray[np.float64_t, ndim=1] to_point
     cdef str name_facemap = 'inner'
     cdef str edit_mode = 'EDIT'
     cdef str object_mode = 'OBJECT'
     cdef str a_select = 'SELECT'
     cdef str a_deselect = 'DESELECT'
-    cdef int p_begin = 0
     cdef str chunk_prefix = 'chunk_'
+    cdef str str_total_chunks = str(total_chunks)
+    cdef int num_paddin = len(str_total_chunks)
+    cdef int i = 0
+    cdef int p_begin = 0
+    cdef np.ndarray[np.float64_t, ndim=1] from_point
+    cdef np.ndarray[np.float64_t, ndim=1] to_point
+    cdef np.npy_bool use_fill = True
+    cdef np.npy_bool clear_outer = False
+    cdef np.npy_bool clear_inner = True
 
     win = bpy.context.window_manager
     win.progress_begin(p_begin, total_chunks)
