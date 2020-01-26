@@ -2614,7 +2614,7 @@ static void __pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_point
  *                 # assing facemap inner:
  *                 bpy.ops.object.face_map_assign()             # <<<<<<<<<<<<<<
  * 
- *         # select only facemap inner:
+ *         # select facemap inner:
  */
         __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_bpy); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 57, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_13);
@@ -2665,7 +2665,7 @@ static void __pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_point
 
     /* "voronoi.pyx":60
  * 
- *         # select only facemap inner:
+ *         # select facemap inner:
  *         bpy.ops.object.face_map_select()             # <<<<<<<<<<<<<<
  *         i += 1
  * 
@@ -2699,7 +2699,7 @@ static void __pyx_f_7voronoi_fracture_voronoi(PyArrayObject *__pyx_v_input_point
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "voronoi.pyx":61
- *         # select only facemap inner:
+ *         # select facemap inner:
  *         bpy.ops.object.face_map_select()
  *         i += 1             # <<<<<<<<<<<<<<
  * 

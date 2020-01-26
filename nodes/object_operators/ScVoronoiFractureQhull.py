@@ -130,7 +130,7 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
             bpy.ops.mesh.bisect(plane_co=voroCenter, plane_no=aim, use_fill=True, clear_outer=False, clear_inner=True)
             # assing to facemap inner:
             bpy.ops.object.face_map_assign()
-            # select only facemap inner:
+            # select facemap inner:
             bpy.ops.object.face_map_select()
 
             bpy.ops.object.mode_set(mode='OBJECT')
@@ -142,7 +142,7 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
             bpy.ops.mesh.bisect(plane_co=voroCenter, plane_no=-aim, use_fill=True, clear_outer=False, clear_inner=True)
             # assing to facemap inner:
             bpy.ops.object.face_map_assign()
-            # select only facemap inner:
+            # select facemap inner:
             bpy.ops.object.face_map_select()
             p += 1
 
