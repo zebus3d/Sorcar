@@ -9,6 +9,12 @@ from .._base.node_base import ScNode
 from .._base.node_operator import ScObjectOperatorNode
 from ...helper import remove_object, print_log
 
+
+"""
+This is first implementation of fracture voronoi with Brute Force
+"""
+
+
 class ScVoronoiFracture(Node, ScObjectOperatorNode):
     bl_idname = "ScVoronoiFracture"
     bl_label = "Voronoi Fracture"

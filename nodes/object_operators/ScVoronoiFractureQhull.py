@@ -12,6 +12,10 @@ from .._base.node_base import ScNode
 from .._base.node_operator import ScObjectOperatorNode
 from ...helper import remove_object, print_log
 
+"""
+This is the last implementation of fracture voronoi with qhull lib and Brute Force
+"""
+
 mute_node = False
 
 architecture = platform.architecture()[0]
