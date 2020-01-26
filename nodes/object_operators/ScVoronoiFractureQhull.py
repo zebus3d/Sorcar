@@ -264,7 +264,7 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
 
         if bf:
-            chunks = self.brute_force(points, obj, total_chunks, str(selection))
+            chunks = self.brute_force(points, obj, total_chunks, selection)
         else:
             chunks = self.qhull_qvoronoi(points, obj, total_chunks, selection)
 
