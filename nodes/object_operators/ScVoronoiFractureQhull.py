@@ -57,7 +57,22 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
                 print_log(self.name, None, "pre_execute", "Invalid object: " + obj)
         self.prop_obj_array = "[]"
 
-    def qhull_qvoronoi(self, points, objects):
+    def qhull_qvoronoi(self, points, obj, total_chunks, selection):
+        # qhull implementation:
+        objects = []
+        num_paddin = len(str(total_chunks))
+
+        if selection:
+            # set facemap inner:
+            bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
+
+        for i in range(total_chunks):
+            new_obj = obj.copy()
+            new_obj.name = "chunk_" + str(i+1).zfill(num_paddin)
+            new_obj.data = obj.data.copy()
+            bpy.context.collection.objects.link(new_obj)
+            objects.append(new_obj)
+        
         # prepare input stdin:
         out_ponints = "3 rbox " + str(len(points)) + " D3\n" + str(len(points)) + "\n"
         for point in points:
@@ -129,13 +144,10 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.context.view_layer.objects.active = objects[bounding_pair[0]]
-            if self.inputs["Get inner selection"].default_value:
-                # set facemap inner:
-                bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
             bpy.ops.object.mode_set(mode='EDIT')
             bpy.ops.mesh.select_all(action='SELECT')
             bpy.ops.mesh.bisect(plane_co=voroCenter, plane_no=aim, use_fill=True, clear_outer=False, clear_inner=True)
-            if self.inputs["Get inner selection"].default_value:
+            if selection:
                 # assing to facemap inner:
                 bpy.ops.object.face_map_assign()
                 # select facemap inner:
@@ -145,13 +157,10 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.context.view_layer.objects.active = objects[bounding_pair[1]]
-            if self.inputs["Get inner selection"].default_value:
-                # set facemap inner:
-                bpy.context.active_object.face_maps.active_index = bpy.context.active_object.face_maps['inner'].index
             bpy.ops.object.mode_set(mode='EDIT')
             bpy.ops.mesh.select_all(action='SELECT')
             bpy.ops.mesh.bisect(plane_co=voroCenter, plane_no=-aim, use_fill=True, clear_outer=False, clear_inner=True)
-            if self.inputs["Get inner selection"].default_value:
+            if selection:
                 # assing to facemap inner:
                 bpy.ops.object.face_map_assign()
                 # select facemap inner:
@@ -162,19 +171,75 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
 
         bpy.ops.object.mode_set(mode='OBJECT')
         win.progress_end()
+        return objects
 
-    def brute_force(self, input_points, objects, selection):
+    def brute_force(self, input_points, obj, total_chunks, selection):
         # with cython:
-        voronoi.call_fracture_voronoi(input_points, objects, selection)
+        objects = voronoi.call_fracture_voronoi(input_points, obj, total_chunks, selection)
+        return objects
+
+        # python brute force:
+        # win = bpy.context.window_manager
+        # win.progress_begin(0, total_chunks)
+        #
+        # objects  = []
+        # num_paddin = len(str(total_chunks))
+        #
+        # i = 0
+        # for from_point in input_points:
+        #
+        #     bpy.context.view_layer.objects.active = obj
+        #     new_obj = obj.copy()
+        #     new_obj.name = "chunk_" + str(i + 1).zfill(num_paddin)
+        #     new_obj.data = obj.data.copy()
+        #     bpy.context.collection.objects.link(new_obj)
+        #     objects.append(new_obj)
+        #     bpy.context.view_layer.objects.active = new_obj
+        #
+        #     if not bpy.context.active_object.select_get():
+        #         bpy.context.active_object.select_set(True)
+        #
+        #     bpy.ops.object.mode_set(mode='EDIT')
+        #
+        #     for to_point in input_points:
+        #
+        #         from_point = mathutils.Vector((from_point[0], from_point[1], from_point[2]))
+        #         to_point = mathutils.Vector((to_point[0], to_point[1], to_point[2]))
+        #
+        #         if from_point != to_point:
+        #             # Calculate the Perpendicular Bisector Plane
+        #
+        #             voro_center = mathutils.Vector(((to_point + from_point) * 0.5))
+        #             aim = mathutils.Vector((from_point - to_point))
+        #             aim.normalize()
+        #
+        #             # Bullet Shatter
+        #             bpy.ops.mesh.select_all(action='SELECT')
+        #             bpy.ops.mesh.bisect(
+        #                 plane_co=voro_center,
+        #                 plane_no=aim,
+        #                 use_fill=True,
+        #                 clear_outer=False,
+        #                 clear_inner=True
+        #             )
+        #
+        #     if bpy.context.active_object.mode != 'OBJECT':
+        #         bpy.ops.object.mode_set(mode='OBJECT')
+        #
+        #     bpy.ops.object.select_all(action='DESELECT')
+        #
+        #     win.progress_update(i)
+        #     i += 1
+        #
+        # win.progress_end()
+        # return objects
 
     def functionality(self):
         points_obj = self.inputs["Center Points"].default_value
         obj = self.inputs["Object"].default_value
         bf = self.inputs["Brute Force"].default_value
         points = np.array([(points_obj.matrix_world @ v.co) for v in points_obj.data.vertices])
-        objects = []
-        total_points = len(points_obj.data.vertices)
-        num_paddin = len(str(total_points))
+        total_chunks = len(points_obj.data.vertices)
 
         # set to face mode:
         if bpy.context.active_object.mode != 'EDIT':
@@ -191,26 +256,15 @@ class ScVoronoiFractureQhull(Node, ScObjectOperatorNode):
             bpy.ops.object.face_map_add()
             bpy.context.active_object.face_maps[-1].name = "inner"
 
-        for i in range(total_points):
-            # bpy.ops.object.duplicate()
-            # objects.append(bpy.context.view_layer.objects.active)
-            # Duplication most faster:
-            new_obj = obj.copy()
-            new_obj.name = "chunk_" + str(i+1).zfill(num_paddin)
-            new_obj.data = obj.data.copy()
-            bpy.context.collection.objects.link(new_obj)
-            objects.append(new_obj)
-
         bpy.ops.object.select_all(action='DESELECT')
+        # hide original object:
         obj.hide_set(True)
 
-        # if len(objects) > 60:
+        selection = self.inputs["Get inner selection"].default_value
         if bf:
-            selection = str(self.inputs["Get inner selection"].default_value)
-            print(selection)
-            self.brute_force(points, objects, selection)
+            objects = self.brute_force(points, obj, total_chunks, str(selection))
         else:
-            self.qhull_qvoronoi(points, objects)
+            objects = self.qhull_qvoronoi(points, obj, total_chunks, selection)
 
         for i in range(len(objects)):
             temp = eval(self.prop_obj_array)
