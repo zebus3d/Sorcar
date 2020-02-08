@@ -10,6 +10,7 @@ import numpy
 # Or if you dont like create this setup.py:
 # you can compile with:
 # sudo pip3 install easycython
+# cd nodes/object_operators/voronoi/cython/src/
 # easycython voronoi.pyx
 # mv -i voronoi.cpython-37m-x86_64-linux-gnu.so ../voronoi.cpython-37m-x86_64-linux-gnu.so
 
