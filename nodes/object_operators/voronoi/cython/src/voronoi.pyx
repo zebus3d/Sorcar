@@ -12,7 +12,10 @@ cimport numpy as np
 #ctypedef np.double_t DTYPE_t
 #ctypedef np.float64_t DTYPE_t
 
-# this np.ndarray[np.float64_t, ndim=2] input_points is similar to this: np.float64_t[:,:] input_points
+# this:
+# np.ndarray[np.float64_t, ndim=2] input_points
+# is similar to this:
+# np.float64_t[:,:] input_points
 
 #cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, object obj, int total_chunks, np.npy_bool selection):
 cdef list fracture_voronoi(np.float64_t[:,:] input_points, object obj, int total_chunks, np.npy_bool selection):
