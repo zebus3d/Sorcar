@@ -4,6 +4,8 @@ import bpy
 import cython
 from mathutils import Vector
 
+#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+
 #import numpy as np
 cimport numpy as np
 
@@ -12,8 +14,8 @@ cimport numpy as np
 
 # this np.ndarray[np.float64_t, ndim=2] input_points is similar to this: np.float64_t[:,:] input_points
 
-cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, object obj, int total_chunks, np.npy_bool selection):
-#cdef list fracture_voronoi(np.float64_t[:,:] input_points, obj, int total_chunks, np.npy_bool selection):
+#cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, object obj, int total_chunks, np.npy_bool selection):
+cdef list fracture_voronoi(np.float64_t[:,:] input_points, object obj, int total_chunks, np.npy_bool selection):
     cdef list chunks  = []
     cdef str name_facemap = 'inner'
     cdef str edit_mode = 'EDIT'
@@ -25,10 +27,10 @@ cdef list fracture_voronoi(np.ndarray[np.float64_t, ndim=2] input_points, object
     cdef int num_paddin = len(str_total_chunks)
     cdef int i = 0
     cdef int p_begin = 0
-    cdef np.ndarray[np.float64_t, ndim=1] from_point
-    #cdef np.float64_t[:] from_point
-    cdef np.ndarray[np.float64_t, ndim=1] to_point
-    #cdef np.float64_t[:] to_point
+    #cdef np.ndarray[np.float64_t, ndim=1] from_point
+    cdef np.float64_t[:] from_point
+    #cdef np.ndarray[np.float64_t, ndim=1] to_point
+    cdef np.float64_t[:] to_point
     cdef np.npy_bool use_fill = True
     cdef np.npy_bool clear_outer = False
     cdef np.npy_bool clear_inner = True
