@@ -6,7 +6,9 @@ import numpy
 # python3 setup.py build_ext --inplace
 
 # Or if you dont like create this setup.py:
-# you can compile with: easycython voronoi.pyx
+# you can compile with:
+# sudo pip3 install easycython
+# easycython voronoi.pyx
 
 setup(
     name = 'voronoi',
