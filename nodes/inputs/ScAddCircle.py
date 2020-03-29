@@ -3,11 +3,11 @@ import bpy
 from bpy.props import EnumProperty, IntProperty, FloatProperty, BoolProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
-from .._base.node_input import ScInputNode
+from .._base.node_operator import ScEditOperatorNode
 
-class ScCircle(Node, ScInputNode):
-    bl_idname = "ScCircle"
-    bl_label = "Circle"
+class ScAddCircle(Node, ScEditOperatorNode):
+    bl_idname = "ScAddCircle"
+    bl_label = "Add Circle"
 
     in_uv: BoolProperty(default=True, update=ScNode.update_value)
     in_type: EnumProperty(items=[("NOTHING", "Nothing", ""), ("NGON", "Ngon", ""), ("TRIFAN", "Triangle Fan", "")], default="NOTHING", update=ScNode.update_value)
