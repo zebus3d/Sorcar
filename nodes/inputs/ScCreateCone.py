@@ -15,6 +15,9 @@ class ScCreateCone(Node, ScInputNode):
     in_radius1: FloatProperty(default=1.0, min=0.0, update=ScNode.update_value)
     in_radius2: FloatProperty(min=0.0, update=ScNode.update_value)
     in_depth: FloatProperty(default=2.0, min=0.0, update=ScNode.update_value)
+    breack_radius: BoolProperty(default=False, update=ScNode.update_value)
+    in_size_x: FloatProperty(default=2.0, min=0.0, update=ScNode.update_value)
+    in_size_y: FloatProperty(default=2.0, min=0.0, update=ScNode.update_value)
 
     def init(self, context):
         super().init(context)
@@ -24,6 +27,9 @@ class ScCreateCone(Node, ScInputNode):
         self.inputs.new("ScNodeSocketNumber", "Radius 1").init("in_radius1", True)
         self.inputs.new("ScNodeSocketNumber", "Radius 2").init("in_radius2")
         self.inputs.new("ScNodeSocketNumber", "Depth").init("in_depth", True)
+        self.inputs.new("ScNodeSocketBool", "Breack Radius").init("breack_radius", True)
+        self.inputs.new("ScNodeSocketNumber", "X").init("in_size_x", False)
+        self.inputs.new("ScNodeSocketNumber", "Y").init("in_size_y", False)
     
     def error_condition(self):
         return (
@@ -36,11 +42,29 @@ class ScCreateCone(Node, ScInputNode):
         )
     
     def functionality(self):
-        bpy.ops.mesh.primitive_cone_add(
-            vertices = int(self.inputs["Vertices"].default_value),
-            radius1 = self.inputs["Radius 1"].default_value,
-            radius2 = self.inputs["Radius 2"].default_value,
-            depth = self.inputs["Depth"].default_value,
-            end_fill_type = self.inputs["Base Fill Type"].default_value,
-            calc_uvs = self.inputs["Generate UVs"].default_value
-        )
+        if self.inputs["Breack Radius"].default_value:
+            self.inputs["Radius 1"].hide = True
+            self.inputs["X"].hide = False
+            self.inputs["Y"].hide = False
+            bpy.ops.mesh.primitive_cone_add(
+                vertices = int(self.inputs["Vertices"].default_value),
+                radius1 = self.inputs["Radius 1"].default_value,
+                radius2 = self.inputs["Radius 2"].default_value,
+                depth = self.inputs["Depth"].default_value,
+                end_fill_type = self.inputs["Base Fill Type"].default_value,
+                calc_uvs = self.inputs["Generate UVs"].default_value
+            )
+            bpy.context.active_object.scale.x = self.inputs["X"].default_value
+            bpy.context.active_object.scale.y = self.inputs["Y"].default_value
+        else:
+            self.inputs["Radius 1"].hide = False
+            self.inputs["X"].hide = True
+            self.inputs["Y"].hide = True
+            bpy.ops.mesh.primitive_cone_add(
+                vertices = int(self.inputs["Vertices"].default_value),
+                radius1 = self.inputs["Radius 1"].default_value,
+                radius2 = self.inputs["Radius 2"].default_value,
+                depth = self.inputs["Depth"].default_value,
+                end_fill_type = self.inputs["Base Fill Type"].default_value,
+                calc_uvs = self.inputs["Generate UVs"].default_value
+            )
