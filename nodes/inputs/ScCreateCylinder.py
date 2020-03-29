@@ -15,9 +15,9 @@ class ScCreateCylinder(Node, ScInputNode):
     in_radius: FloatProperty(default=1.0, min=0.0, update=ScNode.update_value)
     in_depth: FloatProperty(default=2.0, min=0.0, update=ScNode.update_value)
     breack_radius: BoolProperty(default=False, update=ScNode.update_value)
-    in_size_x: FloatProperty(default=2.0, min=0.0, update=ScNode.update_value)
-    in_size_y: FloatProperty(default=2.0, min=0.0, update=ScNode.update_value)
-    in_size_z: FloatProperty(default=2.0, min=0.0, update=ScNode.update_value)
+    in_size_x: FloatProperty(default=1.0, min=0.0, update=ScNode.update_value)
+    in_size_y: FloatProperty(default=1.0, min=0.0, update=ScNode.update_value)
+    in_size_z: FloatProperty(default=1.0, min=0.0, update=ScNode.update_value)
 
     def init(self, context):
         super().init(context)
