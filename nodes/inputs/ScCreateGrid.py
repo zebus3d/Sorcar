@@ -43,7 +43,7 @@ class ScCreateGrid(Node, ScInputNode):
             bpy.ops.mesh.primitive_grid_add(
                 x_subdivisions = int(self.inputs["X Subdivisions"].default_value),
                 y_subdivisions = int(self.inputs["Y Subdivisions"].default_value),
-                size = self.inputs["Size"].default_value,
+                size = 1,
                 calc_uvs = self.inputs["Generate UVs"].default_value
             )
             bpy.context.active_object.scale.x = self.inputs["X"].default_value

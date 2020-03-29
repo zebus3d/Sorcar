@@ -42,7 +42,7 @@ class ScCreateIcoSphere(Node, ScInputNode):
             self.inputs["Z"].hide = False
             bpy.ops.mesh.primitive_ico_sphere_add(
                 subdivisions = int(self.inputs["Subdivisions"].default_value),
-                radius = self.inputs["Radius"].default_value,
+                radius = 1,
                 calc_uvs = self.inputs["Generate UVs"].default_value
             )
             bpy.context.active_object.scale.x = self.inputs["X"].default_value

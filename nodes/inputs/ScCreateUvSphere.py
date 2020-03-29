@@ -46,7 +46,7 @@ class ScCreateUvSphere(Node, ScInputNode):
             bpy.ops.mesh.primitive_uv_sphere_add(
                 segments = int(self.inputs["Segments"].default_value),
                 ring_count = int(self.inputs["Rings"].default_value),
-                radius = self.inputs["Radius"].default_value,
+                radius = 1,
                 calc_uvs = self.inputs["Generate UVs"].default_value
             )
             bpy.context.active_object.scale.x = self.inputs["X"].default_value

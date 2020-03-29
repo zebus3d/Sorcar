@@ -38,7 +38,7 @@ class ScCreateMonkey(Node, ScInputNode):
             self.inputs["Y"].hide = False
             self.inputs["Z"].hide = False
             bpy.ops.mesh.primitive_monkey_add(
-                size = self.inputs["Size"].default_value,
+                size = 1,
                 calc_uvs = self.inputs["Generate UVs"].default_value
             )
             bpy.context.active_object.scale.x = self.inputs["X"].default_value

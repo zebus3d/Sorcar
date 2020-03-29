@@ -40,12 +40,14 @@ class ScCreateCircle(Node, ScInputNode):
             self.inputs["Radius"].hide = True
             self.inputs["X"].hide = False
             self.inputs["Y"].hide = False
+
             bpy.ops.mesh.primitive_circle_add(
                 vertices = int(self.inputs["Vertices"].default_value),
-                radius = self.inputs["Radius"].default_value,
+                radius = 1,
                 fill_type = self.inputs["Fill Type"].default_value,
                 calc_uvs = self.inputs["Generate UVs"].default_value
             )
+            
             bpy.context.active_object.scale.x = self.inputs["X"].default_value
             bpy.context.active_object.scale.y = self.inputs["Y"].default_value
         else:

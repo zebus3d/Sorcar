@@ -59,7 +59,7 @@ class ScCreateTorus(Node, ScInputNode):
                 major_segments = int(self.inputs["Major Segments"].default_value),
                 minor_segments = int(self.inputs["Minor Segments"].default_value),
                 mode = self.inputs["Torus Dimensions"].default_value,
-                major_radius = self.inputs["Major Radius"].default_value,
+                major_radius = 1,
                 minor_radius = self.inputs["Minor Radius"].default_value,
                 abso_major_rad = self.inputs["Exterior Radius"].default_value,
                 abso_minor_rad = self.inputs["Interior Radius"].default_value,

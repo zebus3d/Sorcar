@@ -48,7 +48,7 @@ class ScCreateCylinder(Node, ScInputNode):
             self.inputs["Z"].hide = False
             bpy.ops.mesh.primitive_cylinder_add(
                 vertices = int(self.inputs["Vertices"].default_value),
-                radius = self.inputs["Radius"].default_value,
+                radius = 1,
                 depth = self.inputs["Depth"].default_value,
                 end_fill_type = self.inputs["Cap Fill Type"].default_value,
                 calc_uvs = self.inputs["Generate UVs"].default_value

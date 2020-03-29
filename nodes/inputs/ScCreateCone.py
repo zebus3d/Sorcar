@@ -48,7 +48,7 @@ class ScCreateCone(Node, ScInputNode):
             self.inputs["Y"].hide = False
             bpy.ops.mesh.primitive_cone_add(
                 vertices = int(self.inputs["Vertices"].default_value),
-                radius1 = self.inputs["Radius 1"].default_value,
+                radius1 = 1,
                 radius2 = self.inputs["Radius 2"].default_value,
                 depth = self.inputs["Depth"].default_value,
                 end_fill_type = self.inputs["Base Fill Type"].default_value,

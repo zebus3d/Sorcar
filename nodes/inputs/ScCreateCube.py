@@ -37,8 +37,9 @@ class ScCreateCube(Node, ScInputNode):
             self.inputs["X"].hide = False
             self.inputs["Y"].hide = False
             self.inputs["Z"].hide = False
+            
             bpy.ops.mesh.primitive_cube_add(
-                size = 0, 
+                size = 1, 
                 calc_uvs = self.inputs["Generate UVs"].default_value
             )
             bpy.context.active_object.scale.x = self.inputs["X"].default_value
